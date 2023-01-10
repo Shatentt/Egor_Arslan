@@ -2,8 +2,12 @@ import os
 import sys
 import pygame
 
+pygame.font.init()
 pygame.mixer.init()
 button_sound = None
+
+ARIAL = pygame.font.SysFont('arial', 30)
+
 
 class Button:
     def __init__(self, width, height, inactive_col, active_col):
@@ -26,18 +30,11 @@ class Button:
         else:
             pygame.draw.rect(screen, (13, 162, 58), (x, y, self.width, self.height))
 
-class App:
-    def __init__(self):
-        pygame.init()
-        self.width, self.height = 800, 600
-        self.clock = pygame.time.Clock()
-        self.screen = pygame.display.set_mode((self.width, self.height))
-        pygame.display.set_caption('Mario')
-        self.fps = 50
 
-    def terminate(self):
-        pygame.quit()
-        sys.exit()
+class Scene:
+    def __init__(self, screen):
+        self.current_scene = None
+        self.screen = screen
 
     def print_text(self, text, text_coord, interval=10, size=30):
         font = pygame.font.Font(None, size)
@@ -49,28 +46,6 @@ class App:
             intro_rect.x = interval
             text_coord += intro_rect.height
             self.screen.blit(string_rendered, intro_rect)
-
-    def start_screen(self):
-        intro_text = ["Змейка", "",
-                      "Правила игры",
-                      "Вы играете за змейку",
-                      "Вам нужно есть яблоки",
-                      "Но будьте аккуратнее: Не врезайтесь в стенки и в себя",
-                      "Удачи!"]
-
-        fon = pygame.transform.scale(self.load_image('fon.jpg'), (self.width, self.height))
-        self.screen.blit(fon, (0, 0))
-        self.print_text(intro_text, 50, 10, 30)
-
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.terminate()
-                elif event.type == pygame.KEYDOWN or \
-                        event.type == pygame.MOUSEBUTTONDOWN:
-                    return  # начинаем игру
-            pygame.display.flip()
-            self.clock.tick(self.fps)
 
     def load_image(self, name, colorkey=None):
         fullname = os.path.join('data', name)
@@ -87,6 +62,109 @@ class App:
         else:
             image = image.convert_alpha()
         return image
+
+
+class Menu(Scene):  #
+    def __init__(self, screen):
+        super().__init__(screen)
+        self._option_surfaces = []
+        self._callback = []
+        self._current_option_index = 0
+
+    def append_option(self, option, callback):
+        self._option_surfaces.append(ARIAL.render(option, True, (255, 255, 255)))
+        self._callback.append(callback)
+
+    def switch(self, direction):
+        self._current_option_index = max(0, min(self._current_option_index + direction, len(self._option_surfaces) - 1))
+
+    def select(self):
+        self._callback[self._current_option_index]()
+
+    def draw(self, surf, x, y, option_y_padding):
+        for i, option in enumerate(self._option_surfaces):
+            option_rect = option.get_rect()
+            option_rect.topleft = (x, y + i * option_y_padding)
+            if i == self._current_option_index:
+                pygame.draw.rect(surf, (0, 100, 0), option_rect)
+            surf.blit(option, option_rect)
+
+
+
+class Start_Scene(Scene):
+    def __init__(self, screen):
+        super().__init__(screen)
+
+    def show(self):
+        intro_text = ["Змейка", "",
+                      "Правила игры",
+                      "Вы играете за змейку",
+                      "Вам нужно есть яблоки",
+                      "Но будьте аккуратнее: Не врезайтесь в стенки и в себя",
+                      "Удачи!"]
+        # (pygame.display.get_window_size()[0], pygame.display.get_window_size()[1])
+        fon = pygame.transform.scale(self.load_image('fon.jpg'), (800, 600))
+        self.screen.blit(fon, (0, 0))
+        self.print_text(intro_text, 50, 10, 30)
+
+
+class App:
+    def __init__(self):
+        pygame.init()
+        self.scenes = [True, False, False, False]  # начальное окно, игра, меню паузы, меню
+        self.width, self.height = 800, 600
+        self.clock = pygame.time.Clock()
+        self.screen = pygame.display.set_mode((self.width, self.height))
+        pygame.display.set_caption('Mario')
+        self.fps = 50
+        self.current_scene = self.scenes.index(True)
+
+        self.scene = Scene(self.screen)
+
+        self.start_scene = Start_Scene(self.screen)
+
+        self.menu = Menu(self.screen)  #
+        self.menu.append_option('Hello', lambda: print('Hello'))  #
+        self.menu.append_option('Quit', pygame.quit)  #
+
+    def terminate(self):
+        pygame.quit()
+        sys.exit()
+
+    def switch_scene(self, scene):  #
+        self.current_scene = scene
+
+    def start(self):
+        while True:
+            pref = 3
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.terminate()
+            running = True
+            print(self.current_scene)
+            if self.current_scene == 0:
+                self.start_scene.show()
+            elif self.current_scene == 3:
+                self.menu.draw(self.screen, 100, 100, 75)
+            while running:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        self.terminate()
+                # for scene in range(len(self.scenes)):
+                if pref != self.current_scene:
+                    self.switch_scene(self.scenes.index(True))
+                    running = False
+                pref = self.current_scene
+
+
+                    # elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:  #
+                    #     self.menu.draw(self.screen, 100, 100, 75)
+                    # elif event.type == pygame.KEYDOWN or \
+                    #         event.type == pygame.MOUSEBUTTONDOWN:
+                    #     return  # начинаем игру
+
+            pygame.display.flip()
+            self.clock.tick(self.fps)
 
     def run_game(self):
         run = True
@@ -150,5 +228,6 @@ class App:
 
 if __name__ == '__main__':
     app = App()
-    app.start_screen()
-    app.run_game()
+    app.start()
+    # app.start_screen()
+    # app.run_game()
