@@ -1,5 +1,5 @@
 from ._base import Scene
-from app.settings import *
+from app_full.settings import *
 
 
 class Menu(Scene):  #

@@ -1,0 +1,199 @@
+Index: main.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/main.py b/main.py
+--- a/main.py	
++++ b/main.py	
+@@ -32,9 +32,9 @@
+ 
+ 
+ class Scene:
+-    def __init__(self, screen):
++    def __init__(self, app):
+         self.current_scene = None
+-        self.screen = screen
++        self.app = app
+ 
+     def print_text(self, text, text_coord, interval=10, size=30):
+         font = pygame.font.Font(None, size)
+@@ -45,7 +45,7 @@
+             intro_rect.top = text_coord
+             intro_rect.x = interval
+             text_coord += intro_rect.height
+-            self.screen.blit(string_rendered, intro_rect)
++            self.app.screen.blit(string_rendered, intro_rect)
+ 
+     def load_image(self, name, colorkey=None):
+         fullname = os.path.join('data', name)
+@@ -63,6 +63,68 @@
+             image = image.convert_alpha()
+         return image
+ 
++    def terminate(self):
++        pygame.quit()
++        sys.exit()
++
++    def switch_scene(self, scene):  #
++        self.current_scene = scene
++
++    def processing_of_actions(self):
++        pass
++
++    def processing(self, scene):
++        scene.processing_of_actions()
++
++    def main(self, obj):
++        running = True
++        while running:
++            for event in pygame.event.get():
++                if event.type == pygame.QUIT:
++                    self.terminate()
++            self.processing(obj)
++            # for scene in range(len(self.scenes)):
++            if app.pref != self.current_scene:
++                self.switch_scene(app.scenes.index(True))
++                running = False
++            app.pref = app.scenes.index(True)
++
++            # elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:  #
++            #     self.menu.draw(self.screen, 100, 100, 75)
++            # elif event.type == pygame.KEYDOWN or \
++            #         event.type == pygame.MOUSEBUTTONDOWN:
++            #     return  # начинаем игру
++            pygame.display.flip()
++            app.clock.tick(app.fps)
++
++
++class Start_Scene(Scene):
++    def __init__(self, app):
++        super().__init__(app)
++        self.app = app
++
++    def processing_of_actions(self):
++        for event in pygame.event.get():
++            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:  #
++                # app.menu.draw(app.screen, 100, 100, 75)
++                self.app.scenes[0] = False
++                self.app.scenes[3] = True
++                print('ag')
++                print(self.app.scenes)
++
++    def show(self, obj):
++        intro_text = ["Змейка", "",
++                      "Правила игры",
++                      "Вы играете за змейку",
++                      "Вам нужно есть яблоки",
++                      "Но будьте аккуратнее: Не врезайтесь в стенки и в себя",
++                      "Удачи!"]
++        # (pygame.display.get_window_size()[0], pygame.display.get_window_size()[1])
++        fon = pygame.transform.scale(self.load_image('fon.jpg'), (800, 600))
++        self.app.screen.blit(fon, (0, 0))
++        self.print_text(intro_text, 50, 10, 30)
++        self.main(obj)
++
+ 
+ class Menu(Scene):  #
+     def __init__(self, screen):
+@@ -90,27 +152,10 @@
+             surf.blit(option, option_rect)
+ 
+ 
+-
+-class Start_Scene(Scene):
+-    def __init__(self, screen):
+-        super().__init__(screen)
+-
+-    def show(self):
+-        intro_text = ["Змейка", "",
+-                      "Правила игры",
+-                      "Вы играете за змейку",
+-                      "Вам нужно есть яблоки",
+-                      "Но будьте аккуратнее: Не врезайтесь в стенки и в себя",
+-                      "Удачи!"]
+-        # (pygame.display.get_window_size()[0], pygame.display.get_window_size()[1])
+-        fon = pygame.transform.scale(self.load_image('fon.jpg'), (800, 600))
+-        self.screen.blit(fon, (0, 0))
+-        self.print_text(intro_text, 50, 10, 30)
+-
+-
+ class App:
+     def __init__(self):
+         pygame.init()
++        self.pref = 0
+         self.scenes = [True, False, False, False]  # начальное окно, игра, меню паузы, меню
+         self.width, self.height = 800, 600
+         self.clock = pygame.time.Clock()
+@@ -121,7 +166,7 @@
+ 
+         self.scene = Scene(self.screen)
+ 
+-        self.start_scene = Start_Scene(self.screen)
++        self.start_scene = Start_Scene(self)
+ 
+         self.menu = Menu(self.screen)  #
+         self.menu.append_option('Hello', lambda: print('Hello'))  #
+@@ -131,40 +176,39 @@
+         pygame.quit()
+         sys.exit()
+ 
+-    def switch_scene(self, scene):  #
+-        self.current_scene = scene
++    # def switch_scene(self, scene):  #
++    #     self.current_scene = scene
+ 
+     def start(self):
+         while True:
+-            pref = 3
+             for event in pygame.event.get():
+                 if event.type == pygame.QUIT:
+                     self.terminate()
+-            running = True
+             print(self.current_scene)
+             if self.current_scene == 0:
+-                self.start_scene.show()
++                self.start_scene.show(self.start_scene)
+             elif self.current_scene == 3:
+                 self.menu.draw(self.screen, 100, 100, 75)
+-            while running:
+-                for event in pygame.event.get():
+-                    if event.type == pygame.QUIT:
+-                        self.terminate()
+-                # for scene in range(len(self.scenes)):
+-                if pref != self.current_scene:
+-                    self.switch_scene(self.scenes.index(True))
+-                    running = False
+-                pref = self.current_scene
+-
+ 
+-                    # elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:  #
+-                    #     self.menu.draw(self.screen, 100, 100, 75)
+-                    # elif event.type == pygame.KEYDOWN or \
+-                    #         event.type == pygame.MOUSEBUTTONDOWN:
+-                    #     return  # начинаем игру
+-
+-            pygame.display.flip()
+-            self.clock.tick(self.fps)
++            # while running:
++            #     for event in pygame.event.get():
++            #         if event.type == pygame.QUIT:
++            #             self.terminate()
++            #     # for scene in range(len(self.scenes)):
++            #     if pref != self.current_scene:
++            #         self.switch_scene(self.scenes.index(True))
++            #         running = False
++            #     pref = self.current_scene
++            #
++            #
++            #         # elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:  #
++            #         #     self.menu.draw(self.screen, 100, 100, 75)
++            #         # elif event.type == pygame.KEYDOWN or \
++            #         #         event.type == pygame.MOUSEBUTTONDOWN:
++            #         #     return  # начинаем игру
++            #
++            #     pygame.display.flip()
++            #     self.clock.tick(self.fps)
+ 
+     def run_game(self):
+         run = True

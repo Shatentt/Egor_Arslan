@@ -1,0 +1,14 @@
+[33m92eadd9[m[33m ([m[1;36mHEAD -> [m[1;32mnotes[m[33m, [m[1;32mmain[m[33m)[m HEAD@{0}: checkout: moving from main to notes
+[33m92eadd9[m[33m ([m[1;36mHEAD -> [m[1;32mnotes[m[33m, [m[1;32mmain[m[33m)[m HEAD@{1}: checkout: moving from main2 to main
+[33mabf665c[m[33m ([m[1;31morigin/main2[m[33m, [m[1;32mmain2[m[33m)[m HEAD@{2}: checkout: moving from notes to main2
+[33m92eadd9[m[33m ([m[1;36mHEAD -> [m[1;32mnotes[m[33m, [m[1;32mmain[m[33m)[m HEAD@{3}: checkout: moving from main2 to notes
+[33mabf665c[m[33m ([m[1;31morigin/main2[m[33m, [m[1;32mmain2[m[33m)[m HEAD@{4}: commit: Изменена архитектура
+[33m92eadd9[m[33m ([m[1;36mHEAD -> [m[1;32mnotes[m[33m, [m[1;32mmain[m[33m)[m HEAD@{5}: checkout: moving from main to main2
+[33m92eadd9[m[33m ([m[1;36mHEAD -> [m[1;32mnotes[m[33m, [m[1;32mmain[m[33m)[m HEAD@{6}: merge origin/main: Fast-forward
+[33m2d9897a[m HEAD@{7}: checkout: moving from main2 to main
+[33m2d9897a[m HEAD@{8}: checkout: moving from final_scene to main2
+[33m78300a5[m[33m ([m[1;32mfinal_scene[m[33m)[m HEAD@{9}: commit: Изменена архитектура
+[33ma6f897e[m[33m ([m[1;31morigin/final_scene[m[33m)[m HEAD@{10}: commit: Шаблон финальных окон
+[33m2d9897a[m HEAD@{11}: Branch: renamed refs/heads/main_2 to refs/heads/final_scene
+[33m2d9897a[m HEAD@{13}: checkout: moving from main to main_2
+[33m2d9897a[m HEAD@{14}: clone: from https://github.com/Shatentt/Egor_Arslan.git

@@ -1,11 +1,12 @@
-from app.settings import *
+from app_full.settings import *
+
 
 class Scene:
-    def __init__(self, screen):
-        self.current_scene = None
-        self.screen = screen
+    def __init__(self):
+        pass
 
-    def print_text(self, text, text_coord, interval=10, size=30):
+    def print_text(self, app, text, text_coord, interval=10,
+                   size=30):  # app - объект класса приложения, функция отображает текст на экране
         font = pygame.font.Font(None, size)
         for line in text:
             string_rendered = font.render(line, True, pygame.Color('white'))
@@ -14,7 +15,7 @@ class Scene:
             intro_rect.top = text_coord
             intro_rect.x = interval
             text_coord += intro_rect.height
-            self.screen.blit(string_rendered, intro_rect)
+            app.screen.blit(string_rendered, intro_rect)
 
     def load_image(self, name, colorkey=None):
         fullname = os.path.join('data', name)
@@ -31,3 +32,22 @@ class Scene:
         else:
             image = image.convert_alpha()
         return image
+
+    def terminate(self):
+        pygame.quit()
+        sys.exit()
+
+    def main(self, app, obj):  # obj - объект класса сцены которую мы собираемся отображать
+        """"Используется obj, тк у каждого класса сцены будут своя обработка событий
+               Все это происходит в функции processing, которую нужно создавать в каждом классе сцены"""
+        running = True
+        pref = app.current_scene
+        while running:  # цикл отображения сцены класса obj
+            obj.processing(app)
+            if pref != app.scenes.index(True):
+                app.switch_scene(app.scenes.index(True))  # смена сцены
+                running = False
+            pref = app.current_scene
+            pygame.display.flip()
+            app.clock.tick(app.fps)
+            print('ю')

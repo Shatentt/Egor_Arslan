@@ -1,4 +1,4 @@
-from app.settings import *
+from app_full.settings import *
 
 
 button_sound = None
