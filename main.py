@@ -67,6 +67,15 @@ class App:
                     self.screen.blit(text_2, (self.width / 2 + 50, self.height / 2 - 100))
                     pygame.display.flip()
                     self.clock.tick(self.fps)
+            print(123)
+            print(123)
+            print(123)
+            print(123)
+            print(123)
+            print(123)
+            print(123)
+            print(123)
+            print(123)
 
     def finish_game_lost(self):
         while True:
