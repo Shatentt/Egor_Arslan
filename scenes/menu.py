@@ -1,10 +1,10 @@
 from ._base import Scene
-from app_full.settings import *
+from app.settings import *
 
 
 class Menu(Scene):  #
-    def __init__(self, screen):
-        super().__init__(screen)
+    def __init__(self):
+        super().__init__()
         self._option_surfaces = []
         self._callback = []
         self._current_option_index = 0

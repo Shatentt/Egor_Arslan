@@ -1,7 +1,9 @@
+import pygame
+
 from scenes._base import Scene
 from scenes.menu import Menu
 from scenes.start import Start_Scene
-from app_full.settings import *
+from app.settings import *
 
 
 class App:
@@ -15,7 +17,10 @@ class App:
         pygame.display.set_caption('Mario')
         self.fps = FPS
         self.current_scene = self.scenes.index(True)  # текущий индекс сцены
-
+        self.class_scenes = {
+            2: Menu(),
+            0: Start_Scene()
+        }
         self.start_scene = Start_Scene()  # объект сцены начального экрана
 
         # self.menu = Menu(self.screen)  #
@@ -34,9 +39,9 @@ class App:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.terminate()
-            print(self.current_scene)
+            self.class_scenes[self.current_scene].update(pygame.event.get())
             if self.current_scene == 0:  # в случае если индекс сцены - 1, то запускаем функцию с циклом отображения сцены начального экрана
-                self.start_scene.show(self)
+                self.start_scene.show(self, self.screen)
                 print('Метод запуска сцены начального экрана запущен')
 
                 # elif self.current_scene == 3:
@@ -49,7 +54,7 @@ class App:
                 if event.type == pygame.QUIT:
                     self.terminate()
             # update
-
+            self.class_scenes[self.current_scene].update(pygame.event.get())
             # render
             self.screen.fill(pygame.Color('blue'))
             pygame.display.flip()

@@ -1,4 +1,4 @@
-from app_full.settings import *
+from app.settings import *
 
 
 class Scene:
@@ -37,6 +37,9 @@ class Scene:
         pygame.quit()
         sys.exit()
 
+    def update(self, events):
+        pass
+
     def main(self, app, obj):  # obj - объект класса сцены которую мы собираемся отображать
         """"Используется obj, тк у каждого класса сцены будут своя обработка событий
                Все это происходит в функции processing, которую нужно создавать в каждом классе сцены"""
@@ -50,4 +53,3 @@ class Scene:
             pref = app.current_scene
             pygame.display.flip()
             app.clock.tick(app.fps)
-            print('ю')

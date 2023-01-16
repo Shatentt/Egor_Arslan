@@ -1,4 +1,4 @@
-from app_full.settings import *
+from app.settings import *
 
 
 def finish_game_won(self):
