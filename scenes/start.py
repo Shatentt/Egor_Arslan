@@ -19,7 +19,7 @@ class Start_Scene(Scene):  # класс стартововй сцены
         self.button_stats.show(self.screen)
         self.button_exit.show(self.screen)
         if self.button_play.is_clicked(events):
-            return app.switch_scene(2)
+            app.scenes = [False, True, False, False]
         if self.button_exit.is_clicked(events):
             self.terminate()
         for event in events:
