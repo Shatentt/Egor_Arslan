@@ -11,7 +11,6 @@ class Scene:
         for line in text:
             string_rendered = font.render(line, True, pygame.Color('white'))
             intro_rect = string_rendered.get_rect()
-            text_coord += interval
             intro_rect.top = text_coord
             intro_rect.x = interval
             text_coord += intro_rect.height

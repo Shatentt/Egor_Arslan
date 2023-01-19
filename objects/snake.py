@@ -7,7 +7,7 @@ from app.settings import CELL_SIZE
 
 class Snake:
     def __init__(self, snake_color):
-        self.snake_cells = [[100, 40], [0, 0], [0, 0], [0, 0], [0, 0]]
+        self.snake_cells = [[100, 100], [0, 0], [0, 0], [0, 0], [0, 0]]
         for i in range(1, len(self.snake_cells)):
             self.snake_cells[i][0] = self.snake_cells[i - 1][0] - CELL_SIZE
             self.snake_cells[i][1] = self.snake_cells[0][1]
@@ -20,7 +20,6 @@ class Snake:
                 dir == "LEFT" and not self.direction == "RIGHT",
                 dir == "UP" and not self.direction == "DOWN",
                 dir == "DOWN" and not self.direction == "UP")):
-            self.change_pos()
             self.direction = dir
 
     def change_pos(self):
@@ -41,7 +40,7 @@ class Snake:
     def move(self, score, food_pos, screen_width, screen_height):
         # функция движения змейки
         if self.snake_cells[0][0] == food_pos[0] and self.snake_cells[0][1] == food_pos[1]:
-            food_pos = [randrange(1, screen_width / CELL_SIZE) * CELL_SIZE, randrange(1, screen_height / CELL_SIZE) * CELL_SIZE]
+            food_pos = [randrange(1, screen_width / CELL_SIZE) * CELL_SIZE, randrange(4, screen_height / CELL_SIZE) * CELL_SIZE]
             score += 1
             self.add_snake_cell()
         self.change_pos()
@@ -64,8 +63,8 @@ class Snake:
 
     def check_lose(self, screen_width, screen_height):
         # Проверка на проигрыш
-        if any((self.snake_cells[0][0] > screen_width - 10 or self.snake_cells[0][0] < 0,
-                self.snake_cells[0][1] > screen_height - 10 or self.snake_cells[0][1] < 0)):
+        if any((self.snake_cells[0][0] > screen_width - CELL_SIZE or self.snake_cells[0][0] < 0,
+                self.snake_cells[0][1] > screen_height - CELL_SIZE or self.snake_cells[0][1] < CELL_SIZE * 3)):
             return True
         for pos in self.snake_cells[1:]:
             if pos[0] == self.snake_cells[0][0] and pos[1] == self.snake_cells[0][1]:
