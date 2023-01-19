@@ -1,5 +1,8 @@
+from random import randrange
+
 import pygame
-from app.settings import COLOR_RED, WIDTH, HEIGHT
+from app.settings import COLOR_RED, WIDTH, HEIGHT, CELL_SIZE
+from objects.food import Food
 from objects.snake import Snake
 from scenes._base import Scene
 
@@ -8,14 +11,15 @@ class SceneGame(Scene):
     def __init__(self):
         super().__init__()
         self.snake = Snake(COLOR_RED)
+        self.food = Food([randrange(1, WIDTH / CELL_SIZE) * CELL_SIZE, randrange(1, HEIGHT / CELL_SIZE) * CELL_SIZE], COLOR_RED)
         self.score = 0
-        self.food_pos = [0, 0]
     def processing(self,
                    app):  # функция processing обрабатывает события, для стартового окна к примеру, после нажатия Enter, будет сменяться текущая сцена на сцену игры
         events = pygame.event.get()
         self.screen.fill('#999999')
-        self.score, self.food_pos = self.snake.move(self.score, self.food_pos, WIDTH, HEIGHT)
+        self.score, self.food.food_pos = self.snake.move(self.score, self.food.food_pos, WIDTH, HEIGHT)
         self.snake.draw_snake(self.screen)
+        self.food.draw(self.screen)
         for event in events:
             if event.type == pygame.QUIT:
                 self.terminate()

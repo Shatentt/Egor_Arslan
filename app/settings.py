@@ -5,8 +5,9 @@ import sys
 pygame.font.init()
 pygame.mixer.init()
 
-WIDTH = 950
-HEIGHT = 800
+WIDTH = 900
+HEIGHT = 900
+CELL_SIZE = 20
 FPS = 30
 ARIAL = pygame.font.SysFont('arial', 30)
 
