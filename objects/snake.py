@@ -20,6 +20,7 @@ class Snake:
                 dir == "LEFT" and not self.direction == "RIGHT",
                 dir == "UP" and not self.direction == "DOWN",
                 dir == "DOWN" and not self.direction == "UP")):
+            self.change_pos()
             self.direction = dir
 
     def change_pos(self):
