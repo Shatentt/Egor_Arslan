@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c377b0e1-5ae9-4ad1-8448-6d9e63b8bad7" name="Changes" comment="game_upd">
-      <change afterPath="$PROJECT_DIR$/objects/food.py" afterDir="false" />
+    <list default="true" id="c377b0e1-5ae9-4ad1-8448-6d9e63b8bad7" name="Changes" comment="snake eats food">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/objects/snake.py" beforeDir="false" afterPath="$PROJECT_DIR$/objects/snake.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scenes/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/game.py" afterDir="false" />
     </list>
@@ -184,7 +182,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674076614839</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="snake eats food">
+      <created>1674146427126</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1674146427126</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -215,7 +220,8 @@
     <MESSAGE value="Изменена архитектура" />
     <MESSAGE value="start scene upd" />
     <MESSAGE value="game_upd" />
-    <option name="LAST_COMMIT_MESSAGE" value="game_upd" />
+    <MESSAGE value="snake eats food" />
+    <option name="LAST_COMMIT_MESSAGE" value="snake eats food" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

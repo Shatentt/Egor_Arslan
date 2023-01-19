@@ -60,3 +60,13 @@ class Snake:
         # Отображаем змею
         for pos in self.snake_cells:
             pygame.draw.rect(screen, self.snake_color, pygame.Rect(pos[0], pos[1], CELL_SIZE, CELL_SIZE))
+
+    def check_lose(self, screen_width, screen_height):
+        # Проверка на проигрыш
+        if any((self.snake_cells[0][0] > screen_width - 10 or self.snake_cells[0][0] < 0,
+                self.snake_cells[0][1] > screen_height - 10 or self.snake_cells[0][1] < 0)):
+            return True
+        for pos in self.snake_cells[1:]:
+            if pos[0] == self.snake_cells[0][0] and pos[1] == self.snake_cells[0][1]:
+                return True
+        return False

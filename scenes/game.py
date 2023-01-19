@@ -20,6 +20,8 @@ class SceneGame(Scene):
         self.score, self.food.food_pos = self.snake.move(self.score, self.food.food_pos, WIDTH, HEIGHT)
         self.snake.draw_snake(self.screen)
         self.food.draw(self.screen)
+        if self.snake.check_lose(WIDTH, HEIGHT):
+            self.terminate()
         for event in events:
             if event.type == pygame.QUIT:
                 self.terminate()
