@@ -70,20 +70,22 @@ class Snake:
             pygame.draw.rect(screen, self.snake_color, pygame.Rect(pos[0], pos[1], _settings.CELL_SIZE, _settings.CELL_SIZE))
 
     def check_lose(self, screen_width, screen_height):
-        # Проверка на проигрыш
-        if _settings.CELL_SIZE == 10:
-            if any((self.snake_cells[0][0] > screen_width - _settings.CELL_SIZE or self.snake_cells[0][0] < 0,
-                    self.snake_cells[0][1] > screen_height - _settings.CELL_SIZE or self.snake_cells[0][1] < _settings.CELL_SIZE * 5)):
-                return True
-            for pos in self.snake_cells[1:]:
-                if pos[0] == self.snake_cells[0][0] and pos[1] == self.snake_cells[0][1]:
+        if _settings.gamemode != 2:
+            # Проверка на проигрыш
+            if _settings.CELL_SIZE == 10:
+                if any((self.snake_cells[0][0] > screen_width - _settings.CELL_SIZE or self.snake_cells[0][0] < 0,
+                        self.snake_cells[0][1] > screen_height - _settings.CELL_SIZE or self.snake_cells[0][1] < _settings.CELL_SIZE * 5)):
                     return True
-            return False
-        else:
-            if any((self.snake_cells[0][0] > screen_width - _settings.CELL_SIZE or self.snake_cells[0][0] < 0,
-                    self.snake_cells[0][1] > screen_height - _settings.CELL_SIZE or self.snake_cells[0][1] < _settings.CELL_SIZE * 3)):
-                return True
-            for pos in self.snake_cells[1:]:
-                if pos[0] == self.snake_cells[0][0] and pos[1] == self.snake_cells[0][1]:
+                for pos in self.snake_cells[1:]:
+                    if pos[0] == self.snake_cells[0][0] and pos[1] == self.snake_cells[0][1]:
+                        return True
+                return False
+            else:
+                if any((self.snake_cells[0][0] > screen_width - _settings.CELL_SIZE or self.snake_cells[0][0] < 0,
+                        self.snake_cells[0][1] > screen_height - _settings.CELL_SIZE or self.snake_cells[0][1] < _settings.CELL_SIZE * 3)):
                     return True
-            return False
+                for pos in self.snake_cells[1:]:
+                    if pos[0] == self.snake_cells[0][0] and pos[1] == self.snake_cells[0][1]:
+                        return True
+                return False
+        return False

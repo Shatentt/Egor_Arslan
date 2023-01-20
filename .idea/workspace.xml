@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c377b0e1-5ae9-4ad1-8448-6d9e63b8bad7" name="Changes" comment="speed">
+    <list default="true" id="c377b0e1-5ae9-4ad1-8448-6d9e63b8bad7" name="Changes" comment="snake and field color">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/_settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/_settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scenes/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/game.py" afterDir="false" />
@@ -232,7 +232,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674211750913</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="snake and field color">
+      <created>1674212986655</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1674212986655</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -270,7 +277,8 @@
     <MESSAGE value="field size and amount of food" />
     <MESSAGE value="food color" />
     <MESSAGE value="speed" />
-    <option name="LAST_COMMIT_MESSAGE" value="speed" />
+    <MESSAGE value="snake and field color" />
+    <option name="LAST_COMMIT_MESSAGE" value="snake and field color" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

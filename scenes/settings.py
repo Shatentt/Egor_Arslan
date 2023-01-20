@@ -17,6 +17,7 @@ class Settings(Scene):  #
         self.cur_food = 0
         self.color_snake = ["blue", "pink", "black"]
         self.color_field = ["green", "cyan", "white"]
+        self.modes = ["default", "walls", "immortal", "hole", "reverse", "lock", "seer"]
         self.cur_snake = 0
         self.cur_field = 0
         self.speed = ["slow", "medium", "fast"]
@@ -38,8 +39,8 @@ class Settings(Scene):  #
         self.btn_field_color_minus = ButtonTriag(400, y, '#729246', '#D2E0BF')
         self.btn_field_color_plus = ButtonTriag(550, y, '#729246', '#D2E0BF')
         y += inter
-        self.button_left7 = ButtonTriag(400, y, '#729246', '#D2E0BF')
-        self.button_right7 = ButtonTriag(550, y, '#729246', '#D2E0BF')
+        self.btn_mode_minus = ButtonTriag(400, y, '#729246', '#D2E0BF')
+        self.btn_mode_plus = ButtonTriag(550, y, '#729246', '#D2E0BF')
         self.button_back = ButtonRect(200, 740, 200, 100, "BACK", 30, '#D1A7A0', '#965044', '#282B28', 20)
 
     def show(self, app):
@@ -112,6 +113,13 @@ class Settings(Scene):  #
         if self.cur_field == 2:
             _settings.FIELD_COLOR = _settings.COLOR_WHITE
 
+    def change_mode(self, a):
+        _settings.gamemode += a
+        if _settings.gamemode == 7:
+            _settings.gamemode = 0
+        if _settings.gamemode == -1:
+            _settings.gamemode = 6
+
     def processing(self, app):
         events = pygame.event.get()
         text1 = ['SETTINGS']
@@ -132,6 +140,7 @@ class Settings(Scene):  #
         self.print_text(app, [self.speed[_settings.speed]], 405, 440, 50)
         self.print_text(app, [self.color_snake[self.cur_snake]], 485, 440, 50)
         self.print_text(app, [self.color_field[self.cur_field]], 565, 440, 50)
+        self.print_text(app, [self.modes[_settings.gamemode]], 645, 435, 50)
 
         self.btn_board_plus.hover(events)
         self.btn_board_minus.hover(events)
@@ -145,8 +154,8 @@ class Settings(Scene):  #
         self.btn_speed_plus.hover(events)
         self.btn_field_color_minus.hover(events)
         self.btn_field_color_plus.hover(events)
-        self.button_left7.hover(events)
-        self.button_right7.hover(events)
+        self.btn_mode_minus.hover(events)
+        self.btn_mode_plus.hover(events)
         self.button_back.hover(events)
 
         self.btn_board_plus.show_left(app.screen)
@@ -161,8 +170,8 @@ class Settings(Scene):  #
         self.btn_snake_color_plus.show_right(app.screen)
         self.btn_field_color_minus.show_left(app.screen)
         self.btn_field_color_plus.show_right(app.screen)
-        self.button_left7.show_left(app.screen)
-        self.button_right7.show_right(app.screen)
+        self.btn_mode_minus.show_left(app.screen)
+        self.btn_mode_plus.show_right(app.screen)
         self.button_back.show(app.screen)
 
         for event in events:
@@ -203,6 +212,12 @@ class Settings(Scene):  #
                 break
             if self.btn_field_color_minus.is_clicked(events):
                 self.change_field_color(-1)
+                break
+            if self.btn_mode_plus.is_clicked(events):
+                self.change_mode(1)
+                break
+            if self.btn_mode_minus.is_clicked(events):
+                self.change_mode(-1)
                 break
             if event.type == pygame.QUIT:
                 self.terminate()
