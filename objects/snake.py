@@ -2,7 +2,7 @@ from random import randrange
 
 import pygame
 
-from app.settings import CELL_SIZE
+from app._settings import CELL_SIZE
 
 
 class Snake:

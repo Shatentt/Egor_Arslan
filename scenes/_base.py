@@ -1,18 +1,35 @@
-from app.settings import *
+from app._settings import *
 
 
 class Scene:
     def __init__(self):
         pass
 
-    def print_text(self, app, text, text_coord, interval=10,
-                   size=30):  # app - объект класса приложения, функция отображает текст на экране
+    # def print_text(self, app, text, text_coord, text_coordx, interval=10,
+    #                size=30):  # app - объект класса приложения, функция отображает текст на экране
+    #     font = pygame.font.Font(None, size)
+    #     # string_rendered = font.render(text[0], True, pygame.Color('white'))
+    #     # intro_rect = string_rendered.get_rect()
+    #     # intro_rect.top = text_coord
+    #     # intro_rect.x = text_coordx
+    #     # app.screen.blit(string_rendered, intro_rect)
+    #     for line in text:
+    #         string_rendered = font.render(line, True, pygame.Color('white'))
+    #         intro_rect = string_rendered.get_rect()
+    #         intro_rect.top += interval
+    #         intro_rect.x = text_coordx
+    #         text_coord += intro_rect.height
+    #         app.screen.blit(string_rendered, intro_rect)
+
+    def print_text(self, app, text, text_coord, text_coordx, interval=10, size=30):
         font = pygame.font.Font(None, size)
         for line in text:
             string_rendered = font.render(line, True, pygame.Color('white'))
             intro_rect = string_rendered.get_rect()
+            if text[0] != line:
+                text_coord += interval
             intro_rect.top = text_coord
-            intro_rect.x = interval
+            intro_rect.x = text_coordx
             text_coord += intro_rect.height
             app.screen.blit(string_rendered, intro_rect)
 

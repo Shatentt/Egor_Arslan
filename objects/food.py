@@ -1,5 +1,5 @@
 import pygame
-from app.settings import COLOR_RED, CELL_SIZE
+from app._settings import COLOR_RED, CELL_SIZE
 
 
 class Food:

@@ -1,17 +1,18 @@
 import pygame
 
 from scenes._base import Scene
+from scenes.pause import Pause
 from scenes.game import SceneGame
-from scenes.menu import Menu
+from scenes.settings import Settings
 from scenes.start import Start_Scene
-from app.settings import *
+from app._settings import *
 
 
 class App:
     def __init__(self):
         pygame.init()
         self.scenes = [True, False, False,
-                       False]  # начальное окно, игра, меню паузы, меню (какая сцена сейчас отображается)
+                       False]  # начальное окно, игра, Настройки, меню паузы (какая сцена сейчас отображается)
         self.width, self.height = WIDTH, HEIGHT
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode((self.width, self.height))
@@ -19,17 +20,15 @@ class App:
         self.fps = FPS
         self.current_scene = self.scenes.index(True)  # текущий индекс сцены
         self.class_scenes = {
-            2: Menu(),
+            3: Pause(),
+            2: Settings(),
             1: SceneGame(),
             0: Start_Scene()
         }
-        self.start_scene = Start_Scene() # объект сцены начального экрана
-        self.menu_scene = Menu()
+        self.start_scene = Start_Scene()  # объект сцены начального экрана
+        self.settings = Settings()
         self.game_scene = SceneGame()
-
-        # self.menu = Menu(self.screen)  #
-        # self.menu.append_option('Hello', lambda: print('Hello'))  #
-        # self.menu.append_option('Quit', pygame.quit)  #
+        self.menu_pause = Pause()
 
     def terminate(self):
         pygame.quit()
@@ -40,28 +39,13 @@ class App:
 
     def start(self):  # функция старта основного цикла програмы(где за один проход цикла меняется одна сцена)
         while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.terminate()
             self.class_scenes[self.current_scene].update(pygame.event.get())
             if self.current_scene == 0:  # в случае если индекс сцены - 1, то запускаем функцию с циклом отображения сцены начального экрана
-                self.start_scene.show(self, self.screen)
+                self.start_scene.show(self)
                 print('Метод запуска сцены начального экрана запущен')
             if self.current_scene == 1:
-                self.game_scene.show(self, self.screen)
-
-                # elif self.current_scene == 3:
-                #     self.menu.draw(self.screen, 100, 100, 75)
-
-    def run_game(self):
-        run = True
-        while run:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.terminate()
-            # update
-            self.class_scenes[self.current_scene].update(pygame.event.get())
-            # render
-            self.screen.fill(pygame.Color('blue'))
-            pygame.display.flip()
-            self.clock.tick(self.fps)
+                self.game_scene.show(self)
+            if self.current_scene == 2:
+                self.settings.show(self)
+            if self.current_scene == 3:
+                self.menu_pause.show(self)
