@@ -1,5 +1,6 @@
 import pygame
 
+import app._settings
 from scenes._base import Scene
 from scenes.pause import Pause
 from scenes.game import SceneGame

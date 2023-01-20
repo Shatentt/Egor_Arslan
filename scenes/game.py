@@ -3,7 +3,7 @@ from random import randrange
 import pygame
 
 from app import _settings
-from app._settings import COLOR_RED, WIDTH, HEIGHT, CELL_SIZE, COLOR_YELLOW, COLOR_GREY, COLOR_BLUE, COLOR_GREEN, \
+from app._settings import COLOR_RED, WIDTH, HEIGHT, COLOR_YELLOW, COLOR_GREY, COLOR_BLUE, COLOR_GREEN, \
     game_goes
 from objects.food import Food
 from objects.snake import Snake
@@ -14,7 +14,12 @@ class SceneGame(Scene):
     def __init__(self):
         super().__init__()
         self.snake = Snake(COLOR_BLUE)
-        self.food = Food([randrange(1, WIDTH / CELL_SIZE) * CELL_SIZE, randrange(4, HEIGHT / CELL_SIZE) * CELL_SIZE], COLOR_RED)
+        self.foods = []
+        for i in range(_settings.amount_of_food):
+            if _settings.CELL_SIZE == 10:
+                self.foods.append(Food([randrange(1, WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE, randrange(4, HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE], COLOR_RED))
+            else:
+                self.foods.append(Food([randrange(1, WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE, randrange(6, HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE], COLOR_RED))
         self.score = 0
         self.clock = pygame.time.Clock()
         self.ticks = 0
@@ -24,8 +29,12 @@ class SceneGame(Scene):
                    app):  # функция processing обрабатывает события, для стартового окна к примеру, после нажатия Enter, будет сменяться текущая сцена на сцену игры
         events = pygame.event.get()
         app.screen.fill(COLOR_GREEN)
-        pygame.draw.rect(app.screen, COLOR_GREY, pygame.Rect(0, 0, WIDTH, CELL_SIZE * 3))
+        if _settings.CELL_SIZE == 10:
+            pygame.draw.rect(app.screen, COLOR_GREY, pygame.Rect(0, 0, WIDTH, _settings.CELL_SIZE * 5))
+        else:
+            pygame.draw.rect(app.screen, COLOR_GREY, pygame.Rect(0, 0, WIDTH, _settings.CELL_SIZE * 3))
         tick = self.clock.tick()
+        print(_settings.amount_of_food)
         if _settings.game_goes:
             self.ticks += tick
         seconds = int(self.ticks / 1000 % 60)
@@ -34,7 +43,8 @@ class SceneGame(Scene):
         self.print_text(app, time_text, 20, 220, 50)
         _settings.game_goes = True
         self.snake.draw_snake(app.screen)
-        self.food.draw(app.screen)
+        for i in self.foods:
+            i.draw(app.screen)
         score_text = [f"Score {self.score}"]
         self.print_text(app, score_text, 20, 10, 50)
         if self.snake.check_lose(WIDTH, HEIGHT):
@@ -60,7 +70,7 @@ class SceneGame(Scene):
                 break
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_m:
                 print(self.snake.snake_cells)
-        self.score, self.food.food_pos = self.snake.move(self.score, self.food.food_pos, WIDTH, HEIGHT)
+        self.score, self.foods = self.snake.move(self.score, self.foods, WIDTH, HEIGHT)
 
     def show(self, app):  # функция отображения начального окна
         self.main(app,

@@ -1,5 +1,6 @@
+from app import _settings
+from app._settings import CELL_SIZE
 from app.app import App
-
 
 def main():
     app = App()

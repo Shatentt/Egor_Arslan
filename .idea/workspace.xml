@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c377b0e1-5ae9-4ad1-8448-6d9e63b8bad7" name="Changes" comment="bug fix">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_01_2023_22_02__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_01_2023_22_02__Changes_.xml" afterDir="false" />
+    <list default="true" id="c377b0e1-5ae9-4ad1-8448-6d9e63b8bad7" name="Changes" comment="time and score fix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/_settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/_settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/objects/food.py" beforeDir="false" afterPath="$PROJECT_DIR$/objects/food.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/objects/snake.py" beforeDir="false" afterPath="$PROJECT_DIR$/objects/snake.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scenes/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/pause.py" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/pause.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/start.py" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/start.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scenes/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -208,7 +208,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674152018818</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="time and score fix">
+      <created>1674201850418</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1674201850418</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -242,7 +249,8 @@
     <MESSAGE value="snake eats food" />
     <MESSAGE value="lose" />
     <MESSAGE value="bug fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="bug fix" />
+    <MESSAGE value="time and score fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="time and score fix" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

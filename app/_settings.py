@@ -11,6 +11,7 @@ CELL_SIZE = 20
 FPS = 30
 ARIAL = pygame.font.SysFont('arial', 30)
 game_goes = True
+amount_of_food = 1
 
 COLOR_WHITE = 255, 255, 255
 COLOR_RED = pygame.Color('#CD533B')

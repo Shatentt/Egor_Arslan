@@ -1,5 +1,7 @@
 import pygame
-from app._settings import COLOR_RED, CELL_SIZE
+
+from app import _settings
+from app._settings import COLOR_RED
 
 
 class Food:
@@ -8,4 +10,4 @@ class Food:
         self.food_color = color
 
     def draw(self, screen):
-        pygame.draw.rect(screen, self.food_color, pygame.Rect(self.food_pos[0], self.food_pos[1], CELL_SIZE, CELL_SIZE))
+        pygame.draw.rect(screen, self.food_color, pygame.Rect(self.food_pos[0], self.food_pos[1], _settings.CELL_SIZE, _settings.CELL_SIZE))
