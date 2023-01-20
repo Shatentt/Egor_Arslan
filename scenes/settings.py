@@ -13,14 +13,16 @@ class Settings(Scene):  #
         inter = 80
         self.board_size = ["small", "medium", "big"]
         self.cur_size = 1
+        self.color_food = ["apple", "orange", "grape"]
+        self.cur_food = 0
         self.btn_board_plus = ButtonTriag(400, y, '#729246', '#D2E0BF')
         self.btn_board_minus = ButtonTriag(550, y, '#729246', '#D2E0BF')
         y += inter
         self.btn_food_amount_minus = ButtonTriag(400, y, '#729246', '#D2E0BF')
         self.btn_food_amount_plus = ButtonTriag(550, y, '#729246', '#D2E0BF')
         y += inter
-        self.button_left3 = ButtonTriag(400, y, '#729246', '#D2E0BF')
-        self.button_right3 = ButtonTriag(550, y, '#729246', '#D2E0BF')
+        self.btn_food_color_minus = ButtonTriag(400, y, '#729246', '#D2E0BF')
+        self.btn_food_color_plus = ButtonTriag(550, y, '#729246', '#D2E0BF')
         y += inter
         self.button_left4 = ButtonTriag(400, y, '#729246', '#D2E0BF')
         self.button_right4 = ButtonTriag(550, y, '#729246', '#D2E0BF')
@@ -58,6 +60,19 @@ class Settings(Scene):  #
         if _settings.amount_of_food < 1:
             _settings.amount_of_food = 5
 
+    def change_food_color(self, a):
+        self.cur_food += a
+        if self.cur_food == 3:
+            self.cur_food = 0
+        if self.cur_food == -1:
+            self.cur_food = 2
+        if self.cur_food == 0:
+            _settings.FOOD_COLOR = _settings.COLOR_RED
+        if self.cur_food == 1:
+            _settings.FOOD_COLOR = _settings.COLOR_ORANGE
+        if self.cur_food == 2:
+            _settings.FOOD_COLOR = _settings.COLOR_PURPLE
+
     def processing(self, app):
         events = pygame.event.get()
         text1 = ['SETTINGS']
@@ -74,12 +89,14 @@ class Settings(Scene):  #
         self.print_text(app, text1, 50, 20, size=80)
         self.print_text(app, [self.board_size[self.cur_size]], 165, 435, 50)
         self.print_text(app, [str(_settings.amount_of_food)], 245, 467, 50)
+        self.print_text(app, [self.color_food[self.cur_food]], 325, 450, 50)
+
         self.btn_board_plus.hover(events)
         self.btn_board_minus.hover(events)
         self.btn_food_amount_minus.hover(events)
         self.btn_food_amount_plus.hover(events)
-        self.button_left3.hover(events)
-        self.button_right3.hover(events)
+        self.btn_food_color_minus.hover(events)
+        self.btn_food_color_plus.hover(events)
         self.button_left4.hover(events)
         self.button_right4.hover(events)
         self.button_left5.hover(events)
@@ -94,8 +111,8 @@ class Settings(Scene):  #
         self.btn_board_minus.show_right(app.screen)
         self.btn_food_amount_minus.show_left(app.screen)
         self.btn_food_amount_plus.show_right(app.screen)
-        self.button_left3.show_left(app.screen)
-        self.button_right3.show_right(app.screen)
+        self.btn_food_color_minus.show_left(app.screen)
+        self.btn_food_color_plus.show_right(app.screen)
         self.button_left4.show_left(app.screen)
         self.button_right4.show_right(app.screen)
         self.button_left5.show_left(app.screen)
@@ -120,6 +137,12 @@ class Settings(Scene):  #
                 break
             if self.btn_food_amount_minus.is_clicked(events):
                 self.change_food_amount(-2)
+                break
+            if self.btn_food_color_plus.is_clicked(events):
+                self.change_food_color(1)
+                break
+            if self.btn_food_color_minus.is_clicked(events):
+                self.change_food_color(-1)
                 break
             if event.type == pygame.QUIT:
                 self.terminate()

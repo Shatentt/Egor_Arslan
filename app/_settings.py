@@ -15,6 +15,9 @@ amount_of_food = 1
 
 COLOR_WHITE = 255, 255, 255
 COLOR_RED = pygame.Color('#CD533B')
+COLOR_ORANGE = pygame.Color("#ffa500")
+COLOR_PURPLE = pygame.Color("#800080")
+FOOD_COLOR = COLOR_RED
 COLOR_BLACK = 0, 0, 0
 COLOR_BLUE = pygame.Color('#5c59ff')
 COLOR_YELLOW = pygame.Color('#ffff00')
