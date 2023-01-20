@@ -24,17 +24,27 @@ class SceneGame(Scene):
         self.clock = pygame.time.Clock()
         self.ticks = 0
         _settings.game_goes = True
-        self.clock.tick()
+        if _settings.speed == 0:
+            self.clock.tick(20)
+        if _settings.speed == 1:
+            self.clock.tick(40)
+        else:
+            self.clock.tick()
     def processing(self,
                    app):  # функция processing обрабатывает события, для стартового окна к примеру, после нажатия Enter, будет сменяться текущая сцена на сцену игры
         events = pygame.event.get()
         app.screen.fill(COLOR_GREEN)
+        print(_settings.speed)
         if _settings.CELL_SIZE == 10:
             pygame.draw.rect(app.screen, COLOR_GREY, pygame.Rect(0, 0, WIDTH, _settings.CELL_SIZE * 5))
         else:
             pygame.draw.rect(app.screen, COLOR_GREY, pygame.Rect(0, 0, WIDTH, _settings.CELL_SIZE * 3))
-        tick = self.clock.tick()
-        print(_settings.amount_of_food)
+        if _settings.speed == 0:
+            tick = self.clock.tick(20)
+        if _settings.speed == 1:
+            tick = self.clock.tick(40)
+        else:
+            tick = self.clock.tick()
         if _settings.game_goes:
             self.ticks += tick
         seconds = int(self.ticks / 1000 % 60)
