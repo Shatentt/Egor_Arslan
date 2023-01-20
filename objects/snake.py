@@ -3,6 +3,7 @@ from random import randrange
 import pygame
 
 from app import _settings
+from objects.walls import Wall
 
 
 class Snake:
@@ -40,7 +41,7 @@ class Snake:
         elif self.direction == "DOWN":
             self.snake_cells[0][1] += _settings.CELL_SIZE
 
-    def move(self, score, foods_pos, screen_width, screen_height):
+    def move(self, score, foods_pos, screen_width, screen_height, walls_pos = None):
         # функция движения змейки
         for i in range(len(foods_pos)):
             if self.snake_cells[0][0] == foods_pos[i].food_pos[0] and self.snake_cells[0][1] == foods_pos[i].food_pos[1]:
@@ -50,9 +51,15 @@ class Snake:
                 else:
                     foods_pos[i].food_pos = [randrange(1, screen_width / _settings.CELL_SIZE) * _settings.CELL_SIZE, randrange(4, screen_height / _settings.CELL_SIZE) * _settings.CELL_SIZE]
                 score += 1
+                if _settings.gamemode == 1:
+                    if score % 2 == 0:
+                        walls_pos.append(Wall([randrange(1, _settings.WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE, randrange(4, _settings.HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE], _settings.COLOR_YELLOW))
                 self.add_snake_cell()
         self.change_pos()
-        return score, foods_pos
+        if _settings.gamemode != 1:
+            return score, foods_pos
+        else:
+            return score, foods_pos, walls_pos
 
     def add_snake_cell(self):
         if self.snake_cells[-1][0] > self.snake_cells[-2][0]:
@@ -69,7 +76,11 @@ class Snake:
         for pos in self.snake_cells:
             pygame.draw.rect(screen, self.snake_color, pygame.Rect(pos[0], pos[1], _settings.CELL_SIZE, _settings.CELL_SIZE))
 
-    def check_lose(self, screen_width, screen_height):
+    def check_lose(self, screen_width, screen_height, walls=None):
+        if _settings.gamemode == 1 and walls is not None:
+            for wall in walls:
+                if wall.wall_pos[0] == self.snake_cells[0][0] and wall.wall_pos[1] == self.snake_cells[0][1]:
+                    return True
         if _settings.gamemode != 2:
             # Проверка на проигрыш
             if _settings.CELL_SIZE == 10:
@@ -88,4 +99,5 @@ class Snake:
                     if pos[0] == self.snake_cells[0][0] and pos[1] == self.snake_cells[0][1]:
                         return True
                 return False
-        return False
+        else:
+            return False

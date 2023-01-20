@@ -15,6 +15,7 @@ class SceneGame(Scene):
         super().__init__()
         self.snake = Snake(_settings.SNAKE_COLOR)
         self.foods = []
+        self.walls = []
         for i in range(_settings.amount_of_food):
             if _settings.CELL_SIZE == 10:
                 self.foods.append(Food([randrange(1, WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE, randrange(4, HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE], COLOR_RED))
@@ -52,12 +53,18 @@ class SceneGame(Scene):
         self.print_text(app, time_text, 20, 220, 50)
         _settings.game_goes = True
         self.snake.draw_snake(app.screen)
+        for i in self.walls:
+            i.draw(app.screen)
         for i in self.foods:
             i.draw(app.screen)
         score_text = [f"Score {self.score}"]
         self.print_text(app, score_text, 20, 10, 50)
-        if self.snake.check_lose(WIDTH, HEIGHT):
-            self.terminate()
+        if _settings.gamemode == 1:
+            if self.snake.check_lose(WIDTH, HEIGHT, self.walls):
+                self.terminate()
+        else:
+            if self.snake.check_lose(WIDTH, HEIGHT):
+                self.terminate()
         for event in events:
             if event.type == pygame.QUIT:
                 self.terminate()
@@ -79,7 +86,10 @@ class SceneGame(Scene):
                 break
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_m:
                 print(self.snake.snake_cells)
-        self.score, self.foods = self.snake.move(self.score, self.foods, WIDTH, HEIGHT)
+        if _settings.gamemode == 1:
+            self.score, self.foods, self.walls = self.snake.move(self.score, self.foods, WIDTH, HEIGHT, self.walls)
+        else:
+            self.score, self.foods = self.snake.move(self.score, self.foods, WIDTH, HEIGHT)
 
     def show(self, app):  # функция отображения начального окна
         self.main(app,

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c377b0e1-5ae9-4ad1-8448-6d9e63b8bad7" name="Changes" comment="snake and field color">
+    <list default="true" id="c377b0e1-5ae9-4ad1-8448-6d9e63b8bad7" name="Changes" comment="immortal gamemode">
+      <change afterPath="$PROJECT_DIR$/objects/walls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/_settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/_settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/objects/snake.py" beforeDir="false" afterPath="$PROJECT_DIR$/objects/snake.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scenes/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -239,7 +239,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674212986655</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="immortal gamemode">
+      <created>1674213734765</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1674213734765</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -278,7 +285,8 @@
     <MESSAGE value="food color" />
     <MESSAGE value="speed" />
     <MESSAGE value="snake and field color" />
-    <option name="LAST_COMMIT_MESSAGE" value="snake and field color" />
+    <MESSAGE value="immortal gamemode" />
+    <option name="LAST_COMMIT_MESSAGE" value="immortal gamemode" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
