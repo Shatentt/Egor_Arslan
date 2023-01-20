@@ -24,6 +24,7 @@ class Start_Scene(Scene):  # класс стартововй сцены
         self.button_exit.show(app.screen)
         if self.button_play.is_clicked(events):
             app.scenes = [False, True, False, False]
+            app.reset_game()
         if self.button_settings.is_clicked(events):
             app.scenes = [False, False, True, False]
         if self.button_exit.is_clicked(events):

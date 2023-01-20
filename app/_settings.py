@@ -10,6 +10,7 @@ HEIGHT = 900
 CELL_SIZE = 20
 FPS = 30
 ARIAL = pygame.font.SysFont('arial', 30)
+game_goes = True
 
 COLOR_WHITE = 255, 255, 255
 COLOR_RED = pygame.Color('#CD533B')

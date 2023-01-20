@@ -37,6 +37,9 @@ class App:
     def switch_scene(self, scene):  #
         self.current_scene = scene
 
+    def reset_game(self):
+        self.game_scene = SceneGame()
+
     def start(self):  # функция старта основного цикла програмы(где за один проход цикла меняется одна сцена)
         while True:
             self.class_scenes[self.current_scene].update(pygame.event.get())

@@ -1,3 +1,4 @@
+from app import _settings
 from ._base import *
 from objects.button import ButtonRect
 
