@@ -13,7 +13,7 @@ from scenes._base import Scene
 class SceneGame(Scene):
     def __init__(self):
         super().__init__()
-        self.snake = Snake(COLOR_BLUE)
+        self.snake = Snake(_settings.SNAKE_COLOR)
         self.foods = []
         for i in range(_settings.amount_of_food):
             if _settings.CELL_SIZE == 10:
@@ -33,7 +33,8 @@ class SceneGame(Scene):
     def processing(self,
                    app):  # функция processing обрабатывает события, для стартового окна к примеру, после нажатия Enter, будет сменяться текущая сцена на сцену игры
         events = pygame.event.get()
-        app.screen.fill(COLOR_GREEN)
+        app.screen.fill(_settings.FIELD_COLOR)
+        print(_settings.FIELD_COLOR, _settings.SNAKE_COLOR)
         print(_settings.speed)
         if _settings.CELL_SIZE == 10:
             pygame.draw.rect(app.screen, COLOR_GREY, pygame.Rect(0, 0, WIDTH, _settings.CELL_SIZE * 5))

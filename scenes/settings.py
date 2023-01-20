@@ -15,6 +15,10 @@ class Settings(Scene):  #
         self.cur_size = 1
         self.color_food = ["apple", "orange", "grape"]
         self.cur_food = 0
+        self.color_snake = ["blue", "pink", "black"]
+        self.color_field = ["green", "cyan", "white"]
+        self.cur_snake = 0
+        self.cur_field = 0
         self.speed = ["slow", "medium", "fast"]
         self.btn_board_plus = ButtonTriag(400, y, '#729246', '#D2E0BF')
         self.btn_board_minus = ButtonTriag(550, y, '#729246', '#D2E0BF')
@@ -28,11 +32,11 @@ class Settings(Scene):  #
         self.btn_speed_minus = ButtonTriag(400, y, '#729246', '#D2E0BF')
         self.btn_speed_plus = ButtonTriag(550, y, '#729246', '#D2E0BF')
         y += inter
-        self.button_left5 = ButtonTriag(400, y, '#729246', '#D2E0BF')
-        self.button_right5 = ButtonTriag(550, y, '#729246', '#D2E0BF')
+        self.btn_snake_color_minus = ButtonTriag(400, y, '#729246', '#D2E0BF')
+        self.btn_snake_color_plus = ButtonTriag(550, y, '#729246', '#D2E0BF')
         y += inter
-        self.button_left6 = ButtonTriag(400, y, '#729246', '#D2E0BF')
-        self.button_right6 = ButtonTriag(550, y, '#729246', '#D2E0BF')
+        self.btn_field_color_minus = ButtonTriag(400, y, '#729246', '#D2E0BF')
+        self.btn_field_color_plus = ButtonTriag(550, y, '#729246', '#D2E0BF')
         y += inter
         self.button_left7 = ButtonTriag(400, y, '#729246', '#D2E0BF')
         self.button_right7 = ButtonTriag(550, y, '#729246', '#D2E0BF')
@@ -81,6 +85,33 @@ class Settings(Scene):  #
         if _settings.speed == 3:
             _settings.speed = 0
 
+    def change_snake_color(self, a):
+        self.cur_snake += a
+        if self.cur_snake == 3:
+            self.cur_snake = 0
+        if self.cur_snake == -1:
+            self.cur_snake = 2
+        if self.cur_snake == 0:
+            _settings.SNAKE_COLOR = _settings.COLOR_BLUE
+        if self.cur_snake == 1:
+            _settings.SNAKE_COLOR = _settings.COLOR_PINK
+        if self.cur_snake == 2:
+            _settings.SNAKE_COLOR = _settings.COLOR_BLACK
+        print(_settings.SNAKE_COLOR)
+
+    def change_field_color(self, a):
+        self.cur_field += a
+        if self.cur_field == 3:
+            self.cur_field = 0
+        if self.cur_field == -1:
+            self.cur_field = 2
+        if self.cur_field == 0:
+            _settings.FIELD_COLOR = _settings.COLOR_GREEN
+        if self.cur_field == 1:
+            _settings.FIELD_COLOR = _settings.COLOR_CYAN
+        if self.cur_field == 2:
+            _settings.FIELD_COLOR = _settings.COLOR_WHITE
+
     def processing(self, app):
         events = pygame.event.get()
         text1 = ['SETTINGS']
@@ -99,6 +130,8 @@ class Settings(Scene):  #
         self.print_text(app, [str(_settings.amount_of_food)], 245, 467, 50)
         self.print_text(app, [self.color_food[self.cur_food]], 325, 450, 50)
         self.print_text(app, [self.speed[_settings.speed]], 405, 440, 50)
+        self.print_text(app, [self.color_snake[self.cur_snake]], 485, 440, 50)
+        self.print_text(app, [self.color_field[self.cur_field]], 565, 440, 50)
 
         self.btn_board_plus.hover(events)
         self.btn_board_minus.hover(events)
@@ -108,10 +141,10 @@ class Settings(Scene):  #
         self.btn_food_color_plus.hover(events)
         self.btn_speed_minus.hover(events)
         self.btn_speed_plus.hover(events)
-        self.button_left5.hover(events)
-        self.button_right5.hover(events)
-        self.button_left6.hover(events)
-        self.button_right6.hover(events)
+        self.btn_snake_color_minus.hover(events)
+        self.btn_speed_plus.hover(events)
+        self.btn_field_color_minus.hover(events)
+        self.btn_field_color_plus.hover(events)
         self.button_left7.hover(events)
         self.button_right7.hover(events)
         self.button_back.hover(events)
@@ -124,10 +157,10 @@ class Settings(Scene):  #
         self.btn_food_color_plus.show_right(app.screen)
         self.btn_speed_minus.show_left(app.screen)
         self.btn_speed_plus.show_right(app.screen)
-        self.button_left5.show_left(app.screen)
-        self.button_right5.show_right(app.screen)
-        self.button_left6.show_left(app.screen)
-        self.button_right6.show_right(app.screen)
+        self.btn_snake_color_minus.show_left(app.screen)
+        self.btn_snake_color_plus.show_right(app.screen)
+        self.btn_field_color_minus.show_left(app.screen)
+        self.btn_field_color_plus.show_right(app.screen)
         self.button_left7.show_left(app.screen)
         self.button_right7.show_right(app.screen)
         self.button_back.show(app.screen)
@@ -158,6 +191,18 @@ class Settings(Scene):  #
                 break
             if self.btn_speed_minus.is_clicked(events):
                 self.change_speed(-1)
+                break
+            if self.btn_snake_color_minus.is_clicked(events):
+                self.change_snake_color(-1)
+                break
+            if self.btn_snake_color_plus.is_clicked(events):
+                self.change_snake_color(1)
+                break
+            if self.btn_field_color_plus.is_clicked(events):
+                self.change_field_color(1)
+                break
+            if self.btn_field_color_minus.is_clicked(events):
+                self.change_field_color(-1)
                 break
             if event.type == pygame.QUIT:
                 self.terminate()
