@@ -85,8 +85,6 @@ class SceneGame(Scene):
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
                 self.snake.change_dir("LEFT")
                 break
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_m:
-                print(self.snake.snake_cells)
         if _settings.gamemode == 1:
             self.score, self.foods, self.walls = self.snake.move(self.score, self.foods, WIDTH, HEIGHT, self.walls)
         else:

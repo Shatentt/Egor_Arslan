@@ -102,7 +102,6 @@ class Snake:
             for i in range(1, len(self.snake_cells)):
                 if self.snake_cells[i][0] == self.snake_cells[0][0] and self.snake_cells[i][1] == self.snake_cells[0][1]:
                     if _settings.gamemode == 3 and koef % 2 == i % 2:
-                        print(123)
                         return False
                     return True
             return False
