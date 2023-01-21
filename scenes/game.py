@@ -16,11 +16,12 @@ class SceneGame(Scene):
         self.snake = Snake(_settings.SNAKE_COLOR)
         self.foods = []
         self.walls = []
+        self.koef = 0 # коэффицент, нужный для отображения змейки в режиме hole
         for i in range(_settings.amount_of_food):
             if _settings.CELL_SIZE == 10:
                 self.foods.append(Food([randrange(1, WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE, randrange(4, HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE], COLOR_RED))
             else:
-                self.foods.append(Food([randrange(1, WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE, randrange(6, HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE], COLOR_RED))
+                self.foods.append(Food([randrange(1, WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE, randrange(7, HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE], COLOR_RED))
         self.score = 0
         self.clock = pygame.time.Clock()
         self.ticks = 0
@@ -52,7 +53,7 @@ class SceneGame(Scene):
         time_text = [f"Time {minutes:02d}:{seconds:02d}"]
         self.print_text(app, time_text, 20, 220, 50)
         _settings.game_goes = True
-        self.snake.draw_snake(app.screen)
+        self.snake.draw_snake(app.screen, self.koef)
         for i in self.walls:
             i.draw(app.screen)
         for i in self.foods:
@@ -63,7 +64,7 @@ class SceneGame(Scene):
             if self.snake.check_lose(WIDTH, HEIGHT, self.walls):
                 self.terminate()
         else:
-            if self.snake.check_lose(WIDTH, HEIGHT):
+            if self.snake.check_lose(WIDTH, HEIGHT, None, self.koef):
                 self.terminate()
         for event in events:
             if event.type == pygame.QUIT:
@@ -90,6 +91,7 @@ class SceneGame(Scene):
             self.score, self.foods, self.walls = self.snake.move(self.score, self.foods, WIDTH, HEIGHT, self.walls)
         else:
             self.score, self.foods = self.snake.move(self.score, self.foods, WIDTH, HEIGHT)
+        self.koef += 1
 
     def show(self, app):  # функция отображения начального окна
         self.main(app,
