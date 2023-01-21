@@ -59,6 +59,8 @@ class Snake:
                 else:
                     self.add_snake_cell()
                     self.add_snake_cell()
+                if _settings.gamemode == 4:
+                    self.reverse()
         self.change_pos()
         if _settings.gamemode != 1:
             return score, foods_pos
@@ -72,10 +74,11 @@ class Snake:
         elif self.snake_cells[-1][0] < self.snake_cells[-2][0]:
             self.direction = "LEFT"
         elif self.snake_cells[-1][1] > self.snake_cells[-2][1]:
-            self.direction = "UP"
-        elif self.snake_cells[-1][1] < self.snake_cells[-2][1]:
             self.direction = "DOWN"
-        self.snake_cells = reversed(self.snake_cells)
+        elif self.snake_cells[-1][1] < self.snake_cells[-2][1]:
+            self.direction = "UP"
+        print(self.direction)
+        self.snake_cells = list(reversed(self.snake_cells))
 
     def add_snake_cell(self):
         if self.snake_cells[-1][0] > self.snake_cells[-2][0]:
