@@ -65,6 +65,18 @@ class Snake:
         else:
             return score, foods_pos, walls_pos
 
+    def reverse(self):  # функция для режима игры reverse
+        # При съедании еды хвост змейки становится головой, а голова хвостом. Эта функция реализовывает такой поворот
+        if self.snake_cells[-1][0] > self.snake_cells[-2][0]:
+            self.direction = "RIGHT"
+        elif self.snake_cells[-1][0] < self.snake_cells[-2][0]:
+            self.direction = "LEFT"
+        elif self.snake_cells[-1][1] > self.snake_cells[-2][1]:
+            self.direction = "UP"
+        elif self.snake_cells[-1][1] < self.snake_cells[-2][1]:
+            self.direction = "DOWN"
+        self.snake_cells = reversed(self.snake_cells)
+
     def add_snake_cell(self):
         if self.snake_cells[-1][0] > self.snake_cells[-2][0]:
             self.snake_cells.append([self.snake_cells[-1][0] + _settings.CELL_SIZE, self.snake_cells[-1][1]])

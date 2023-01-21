@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c377b0e1-5ae9-4ad1-8448-6d9e63b8bad7" name="Changes" comment="walls gamemode">
+    <list default="true" id="c377b0e1-5ae9-4ad1-8448-6d9e63b8bad7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_01_2023_22_02__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_11_01_2023_22_02__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/objects/snake.py" beforeDir="false" afterPath="$PROJECT_DIR$/objects/snake.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/game.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,7 +21,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="restructuring" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -260,7 +260,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="notes" />
+                        <option value="reverse_mod" />
                       </list>
                     </value>
                   </entry>
