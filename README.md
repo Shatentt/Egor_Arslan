@@ -20,3 +20,6 @@ Snake
 ...
 ##
 Использовали такие технологии как библиотека Pygame в Python
+![2023-01-22_02h27_21](https://user-images.githubusercontent.com/107076527/213894184-5f1b6695-fc80-4b5d-a76d-2a68d43460b8.png)
+![2023-01-22_02h27_47](https://user-images.githubusercontent.com/107076527/213894185-47fc4926-23fd-406a-99a2-eccf8278a72c.png)
+![2023-01-22_02h28_56](https://user-images.githubusercontent.com/107076527/213894186-8a7bb5a3-c4ae-4808-a75e-c6155b45b0c8.png)
