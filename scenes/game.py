@@ -5,7 +5,7 @@ import pygame
 from app import _settings
 from app._settings import COLOR_RED, WIDTH, HEIGHT, COLOR_YELLOW, COLOR_GREY, COLOR_BLUE, COLOR_GREEN, \
     game_goes
-from objects.food import Food
+from objects.cell import Cell
 from objects.snake import Snake
 from scenes._base import Scene
 
@@ -16,12 +16,19 @@ class SceneGame(Scene):
         self.snake = Snake(_settings.SNAKE_COLOR)
         self.foods = []
         self.walls = []
+        self.keys = []
         self.koef = 0 # коэффицент, нужный для отображения змейки в режиме hole
-        for i in range(_settings.amount_of_food):
-            if _settings.CELL_SIZE == 10:
-                self.foods.append(Food([randrange(1, WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE, randrange(4, HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE], COLOR_RED))
-            else:
-                self.foods.append(Food([randrange(1, WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE, randrange(7, HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE], COLOR_RED))
+        if _settings.gamemode != 5:
+            for i in range(_settings.amount_of_food):
+                lim = 4 if _settings.CELL_SIZE == 10 else 7
+                self.foods.append(Cell([randrange(1, WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE, randrange(lim, HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE], _settings.FOOD_COLOR))
+        else:
+            for i in range(_settings.amount_of_food):
+                self.walls.append(Cell([randrange(1, _settings.WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE, randrange(4, _settings.HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE], _settings.COLOR_YELLOW))
+                self.keys.append(Cell([randrange(1, _settings.WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE,
+                                        randrange(4, _settings.HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE],
+                                       _settings.COLOR_SILVER))
+
         self.score = 0
         self.clock = pygame.time.Clock()
         self.ticks = 0
@@ -42,7 +49,7 @@ class SceneGame(Scene):
             pygame.draw.rect(app.screen, COLOR_GREY, pygame.Rect(0, 0, WIDTH, _settings.CELL_SIZE * 3))
         if _settings.speed == 0:
             tick = self.clock.tick(20)
-        if _settings.speed == 1:
+        elif _settings.speed == 1:
             tick = self.clock.tick(40)
         else:
             tick = self.clock.tick()
@@ -58,13 +65,15 @@ class SceneGame(Scene):
             i.draw(app.screen)
         for i in self.foods:
             i.draw(app.screen)
+        for i in self.keys:
+            i.draw(app.screen)
         score_text = [f"Score {self.score}"]
         self.print_text(app, score_text, 20, 10, 50)
         if _settings.gamemode == 1:
             if self.snake.check_lose(WIDTH, HEIGHT, self.walls):
                 self.terminate()
         else:
-            if self.snake.check_lose(WIDTH, HEIGHT, None, self.koef):
+            if self.snake.check_lose(WIDTH, HEIGHT, self.walls, self.koef):
                 self.terminate()
         for event in events:
             if event.type == pygame.QUIT:
@@ -86,9 +95,12 @@ class SceneGame(Scene):
                 self.snake.change_dir("LEFT")
                 break
         if _settings.gamemode == 1:
-            self.score, self.foods, self.walls = self.snake.move(self.score, self.foods, WIDTH, HEIGHT, self.walls)
+            self.score, self.foods, self.walls = self.snake.move(self.score, self.foods, WIDTH, HEIGHT, self.walls, self.keys)
+        elif _settings.gamemode == 5:
+            self.score, self.foods, self.walls, self.keys = self.snake.move(self.score, self.foods, WIDTH, HEIGHT,
+                                                                            self.walls, self.keys)
         else:
-            self.score, self.foods = self.snake.move(self.score, self.foods, WIDTH, HEIGHT)
+            self.score, self.foods = self.snake.move(self.score, self.foods, WIDTH, HEIGHT, self.walls, self.keys)
         self.koef += 1
 
     def show(self, app):  # функция отображения начального окна

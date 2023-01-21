@@ -21,6 +21,7 @@ COLOR_ORANGE = pygame.Color("#ffa500")
 COLOR_PURPLE = pygame.Color("#800080")
 FOOD_COLOR = COLOR_RED
 COLOR_BLACK = 0, 0, 0
+COLOR_SILVER = pygame.Color("#b5b8b1")
 COLOR_BLUE = pygame.Color('#5c59ff')
 SNAKE_COLOR = COLOR_BLUE
 COLOR_YELLOW = pygame.Color('#ffff00')

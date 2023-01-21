@@ -3,7 +3,7 @@ from random import randrange
 import pygame
 
 from app import _settings
-from objects.walls import Wall
+from objects.cell import Cell
 
 
 class Snake:
@@ -41,19 +41,26 @@ class Snake:
         elif self.direction == "DOWN":
             self.snake_cells[0][1] += _settings.CELL_SIZE
 
-    def move(self, score, foods_pos, screen_width, screen_height, walls_pos = None):
+    def move(self, score, foods_pos, screen_width, screen_height, walls_pos=None, keys_pos=None):
         # функция движения змейки
+        size = 4 if _settings.CELL_SIZE == 10 else 7
         for i in range(len(foods_pos)):
-            if self.snake_cells[0][0] == foods_pos[i].food_pos[0] and self.snake_cells[0][1] == foods_pos[i].food_pos[1]:
-                if _settings.CELL_SIZE == 10:
-                    foods_pos[i].food_pos = [randrange(1, screen_width / _settings.CELL_SIZE) * _settings.CELL_SIZE,
-                                    randrange(7, screen_height / _settings.CELL_SIZE) * _settings.CELL_SIZE]
+            if self.snake_cells[0][0] == foods_pos[i].pos[0] and self.snake_cells[0][1] == foods_pos[i].pos[1]:
+                if _settings.gamemode != 5:
+                    foods_pos[i].pos = [randrange(1, screen_width / _settings.CELL_SIZE) * _settings.CELL_SIZE,
+                                    randrange(size, screen_height / _settings.CELL_SIZE) * _settings.CELL_SIZE]
                 else:
-                    foods_pos[i].food_pos = [randrange(1, screen_width / _settings.CELL_SIZE) * _settings.CELL_SIZE, randrange(4, screen_height / _settings.CELL_SIZE) * _settings.CELL_SIZE]
+                    keys_pos.append(Cell([randrange(1, _settings.WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE,
+                                           randrange(4, _settings.HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE],
+                                          _settings.COLOR_SILVER))
+                    walls_pos.append(Cell([randrange(1, _settings.WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE,
+                                           randrange(4, _settings.HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE],
+                                          _settings.COLOR_YELLOW))
+                    foods_pos.pop(i)
                 score += 1
                 if _settings.gamemode == 1:
                     if score % 2 == 0:
-                        walls_pos.append(Wall([randrange(1, _settings.WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE, randrange(4, _settings.HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE], _settings.COLOR_YELLOW))
+                        walls_pos.append(Cell([randrange(1, _settings.WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE, randrange(4, _settings.HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE], _settings.COLOR_YELLOW))
                 if _settings.gamemode != 3:
                     self.add_snake_cell()
                 else:
@@ -61,11 +68,23 @@ class Snake:
                     self.add_snake_cell()
                 if _settings.gamemode == 4:
                     self.reverse()
+        list_of_deleted = []  # список, помогающий удалить элементы списка keys_pos
+        for i in range(len(keys_pos)):
+            if self.snake_cells[0][0] == keys_pos[i].pos[0] and self.snake_cells[0][1] == keys_pos[i].pos[1]:
+                list_of_deleted.append(i)
+                foods_pos.append(Cell(walls_pos[0].pos, _settings.FOOD_COLOR))
+                walls_pos.pop(0)
+        cnt_of_deleted = 0
+        for i in list_of_deleted:
+            keys_pos.pop(i - cnt_of_deleted)
+            cnt_of_deleted += 1
         self.change_pos()
-        if _settings.gamemode != 1:
-            return score, foods_pos
-        else:
+        if _settings.gamemode == 1:
             return score, foods_pos, walls_pos
+        elif _settings.gamemode == 5:
+            return score, foods_pos, walls_pos, keys_pos
+        else:
+            return score, foods_pos
 
     def reverse(self):  # функция для режима игры reverse
         # При съедании еды хвост змейки становится головой, а голова хвостом. Эта функция реализовывает такой поворот
@@ -90,7 +109,7 @@ class Snake:
         elif self.snake_cells[-1][1] < self.snake_cells[-2][1]:
             self.snake_cells.append([self.snake_cells[-1][0], self.snake_cells[-1][1] - _settings.CELL_SIZE])
 
-    def draw_snake(self, screen, koef = 0):
+    def draw_snake(self, screen, koef=0):
         # Отображаем змею
         if _settings.gamemode != 3:
             for pos in self.snake_cells:
@@ -104,10 +123,9 @@ class Snake:
                 pygame.draw.rect(screen, self.snake_color, pygame.Rect(self.snake_cells[i][0], self.snake_cells[i][1], _settings.CELL_SIZE, _settings.CELL_SIZE))
 
     def check_lose(self, screen_width, screen_height, walls=None, koef=0):
-        if _settings.gamemode == 1 and walls is not None:
-            for wall in walls:
-                if wall.wall_pos[0] == self.snake_cells[0][0] and wall.wall_pos[1] == self.snake_cells[0][1]:
-                    return True
+        for wall in walls:
+            if wall.pos[0] == self.snake_cells[0][0] and wall.pos[1] == self.snake_cells[0][1]:
+                return True
         if _settings.gamemode != 2:
             # Проверка на проигрыш
             top_size = _settings.CELL_SIZE * 5 if _settings.CELL_SIZE == 10 else _settings.CELL_SIZE * 3
