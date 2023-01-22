@@ -60,6 +60,7 @@ class Snake: # Класс змейки
     def move(self, score, foods_pos, screen_width, screen_height, walls_pos=None, keys_pos=None, future_food_pos=None):
         # Функция движения змейки. Работает и возвращает значения по-разному, в зависимости от режима игры
         size = 4 if _settings.CELL_SIZE == 10 else 7
+        to_del = [] # список, нужный для удаляния еды в режиме lock
         for i in range(len(foods_pos)):
             if self.snake_cells[0][0] == foods_pos[i].pos[0] and self.snake_cells[0][1] == foods_pos[i].pos[1]:
                 # Если голова змейки находится на одной позиции с едой, то позиция еды изменяется, score прибавляется
@@ -75,7 +76,7 @@ class Snake: # Класс змейки
                     walls_pos.append(Cell([randrange(1, _settings.WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE,
                                            randrange(4, _settings.HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE],
                                           _settings.COLOR_YELLOW))
-                    foods_pos.pop(i)
+                    to_del.append(i)
                 else:
                     foods_pos[i].pos = future_food_pos[0].pos
                     future_food_pos.pop(0)
@@ -100,6 +101,10 @@ class Snake: # Класс змейки
                 # В режиме reverse при съедании яблока "переворачиваем змейку"
                 if _settings.gamemode == 4:
                     self.reverse()
+        cnt_of_deleted = 0
+        for i in range(len(to_del)):
+            foods_pos.pop(to_del[i] - cnt_of_deleted)
+            cnt_of_deleted += 1
         list_of_deleted = []  # список, помогающий удалить элементы списка keys_pos
         # При взятии ключа змейкой в режиме lock добавляем еду на место стенки, стенку и ключ удаляем
         for i in range(len(keys_pos)):
