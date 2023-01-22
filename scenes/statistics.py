@@ -66,11 +66,11 @@ class SceneStatistics(Scene):  #
 
         for event in events:
             if self.button_back.is_clicked(events):
-                app.scenes = [True, False, False, False, False]
+                app.scenes = [True, False, False, False, False, False]
             if event.type == pygame.QUIT:
                 self.terminate()
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                app.scenes = [True, False, False, False, False]
+                app.scenes = [True, False, False, False, False, False]
             if self.button_clear.is_clicked(events):
                 try:
                     os.remove("data/statistics.txt")

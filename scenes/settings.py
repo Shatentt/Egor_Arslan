@@ -179,7 +179,7 @@ class Settings(Scene):  #
 
         for event in events:
             if self.button_back.is_clicked(events):
-                app.scenes = [True, False, False, False, False]
+                app.scenes = [True, False, False, False, False, False]
             if self.btn_board_minus.is_clicked(events):
                 self.change_cur_size(1)
                 break
@@ -226,4 +226,4 @@ class Settings(Scene):  #
                 self.terminate()
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 print(_settings.CELL_SIZE)
-                app.scenes = [True, False, False, False, False]
+                app.scenes = [True, False, False, False, False, False]

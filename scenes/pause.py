@@ -25,6 +25,6 @@ class Pause(Scene):
             if event.type == pygame.QUIT:
                 self.terminate()
             if self.btn_finish.is_clicked(events):
-                app.scenes = [True, False, False, False, False]
+                app.scenes = [True, False, False, False, False, False]
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                app.scenes = [False, True, False, False, False]
+                app.scenes = [False, True, False, False, False, False]

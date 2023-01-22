@@ -1,49 +1,35 @@
-from app._settings import *
+from ._base import *
+from objects.button import ButtonRect
+from objects.snake_animated import Snake_Animated
 
+class Finish(Scene):
+    def __init__(self):
+        super().__init__()
+        self.btn_finish = ButtonRect(200, 800, 200, 100, "TO MENU", 30, '#D2E0BF', '#65656C', '#282B28', 20)
+        self.btn_replay = ButtonRect(420, 800, 200, 100, "PLAY AGAIN", 30, '#D2E0BF', '#65656C', '#282B28', 20)
+        self.snake = Snake_Animated(self.load_image('sprites.png'), 12, 2, 700, 700)
 
-def finish_game_won(self):
-    while True:
-        mouse = pygame.mouse.get_pos()
-        for ev in pygame.event.get():
-            if ev.type == pygame.QUIT:
+    def show(self, app):
+        app.fps = 10
+        self.background = pygame.transform.scale(self.load_image('finish_scene.jpg'), (WIDTH, HEIGHT))
+        self.main(app, self)
+
+    def processing(self, app):
+        app.screen.blit(self.background, (0, 0))
+        self.snake.all_sprites.update()
+        self.snake.all_sprites.draw(app.screen)
+        events = pygame.event.get()
+        self.btn_finish.hover(events)
+        self.btn_replay.hover(events)
+        self.btn_finish.show(app.screen)
+        self.btn_replay.show(app.screen)
+        for event in events:
+            if event.type == pygame.QUIT:
                 self.terminate()
-            if ev.type == pygame.MOUSEBUTTONDOWN:
-                if self.width / 2 <= mouse[0] <= self.width / 2 + 140 \
-                        and self.height / 2 <= mouse[1] <= self.height / 2 + 40:
-                    self.restart = True
-                    pygame.quit()
-        for ev in pygame.event.get():
-            if ev.type != pygame.QUIT:
-                self.screen.fill(pygame.Color('green'))
-                smallfont = pygame.font.SysFont('Corbel', 35)
-                text_1 = smallfont.render('restart', True, (255, 255, 255))
-                text_2 = smallfont.render('you won', True, (255, 255, 255))
-                pygame.draw.rect(self.screen, (170, 170, 170), [self.width / 2, self.height / 2, 140, 40])
-                self.screen.blit(text_1, (self.width / 2 + 50, self.height / 2))
-                self.screen.blit(text_2, (self.width / 2 + 50, self.height / 2 - 100))
-                pygame.display.flip()
-                self.clock.tick(self.fps)
-
-
-def finish_game_lost(self):
-    while True:
-        mouse = pygame.mouse.get_pos()
-        for ev in pygame.event.get():
-            if ev.type == pygame.QUIT:
-                self.terminate()
-            if ev.type == pygame.MOUSEBUTTONDOWN:
-                if self.width / 2 <= mouse[0] <= self.width / 2 + 140 \
-                        and self.height / 2 <= mouse[1] <= self.height / 2 + 40:
-                    self.restart = True
-                    pygame.quit()
-        for ev in pygame.event.get():
-            if ev.type != pygame.QUIT:
-                self.screen.fill(pygame.Color('red'))
-                smallfont = pygame.font.SysFont('Corbel', 35)
-                text_1 = smallfont.render('restart', True, (255, 255, 255))
-                text_2 = smallfont.render('you have lost, Game Over', True, (255, 255, 255))
-                pygame.draw.rect(self.screen, (170, 170, 170), [self.width / 2, self.height / 2, 140, 40])
-                self.screen.blit(text_1, (self.width / 2 + 50, self.height / 2))
-                self.screen.blit(text_2, (50, self.height / 2 - 100))
-                pygame.display.flip()
-                self.clock.tick(self.fps)
+            if self.btn_finish.is_clicked(events):
+                app.scenes = [True, False, False, False, False, False]
+                app.fps = FPS
+            if self.btn_replay.is_clicked(events):
+                app.scenes = [False, True, False, False, False, False]
+                app.reset_game()
+                app.fps = FPS

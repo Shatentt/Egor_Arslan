@@ -8,13 +8,14 @@ from scenes.settings import Settings
 from scenes.start import Start_Scene
 from app._settings import *
 from scenes.statistics import SceneStatistics
+from scenes.finish import Finish
 
 
 class App:
     def __init__(self):
         pygame.init()
         self.scenes = [True, False, False,  # какая сцена сейчас отображается
-                       False, False]  # начальное окно, игра, Настройки, меню паузы, статистика
+                       False, False, False]  # начальное окно, игра, Настройки, меню паузы, статистика
         self.width, self.height = WIDTH, HEIGHT
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode((self.width, self.height))
@@ -22,6 +23,7 @@ class App:
         self.fps = FPS
         self.current_scene = self.scenes.index(True)  # текущий индекс сцены
         self.class_scenes = {
+            5: Finish(),
             4: SceneStatistics(),
             3: Pause(),
             2: Settings(),
@@ -33,6 +35,7 @@ class App:
         self.game_scene = SceneGame()
         self.menu_pause = Pause()
         self.stats_scene = SceneStatistics()
+        self.finish = Finish()
 
     def terminate(self):
         pygame.quit()
@@ -59,3 +62,5 @@ class App:
                 self.menu_pause.show(self)
             if self.current_scene == 4:
                 self.stats_scene.show(self)
+            if self.current_scene == 5:
+                self.finish.show(self)

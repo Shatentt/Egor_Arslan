@@ -100,18 +100,18 @@ class SceneGame(Scene):
         if _settings.gamemode == 1:
             if self.snake.check_lose(WIDTH, HEIGHT, self.walls):
                 self.data_save()
-                self.terminate()
+                app.scenes = [False, False, False, False, False, True]
         else:
             if self.snake.check_lose(WIDTH, HEIGHT, self.walls, self.koef):
                 self.data_save()
-                self.terminate()
+                app.scenes = [False, False, False, False, False, True]
         for event in events:
             if event.type == pygame.QUIT:
                 self.terminate()
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 pygame.image.save(app.screen, "data/screenshot.png")
                 _settings.game_goes = False
-                app.scenes = [False, False, False, True, False]
+                app.scenes = [False, False, False, True, False, False]
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
                 self.snake.change_dir("DOWN")
                 break
