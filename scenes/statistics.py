@@ -72,4 +72,7 @@ class SceneStatistics(Scene):  #
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 app.scenes = [True, False, False, False, False]
             if self.button_clear.is_clicked(events):
-                os.remove("data/statistics.txt")
+                try:
+                    os.remove("data/statistics.txt")
+                except:
+                    pass
