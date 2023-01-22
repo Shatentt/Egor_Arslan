@@ -23,6 +23,8 @@ class Finish(Scene):
         self.btn_replay.hover(events)
         self.btn_finish.show(app.screen)
         self.btn_replay.show(app.screen)
+        self.print_text(app, [f'SCORE:  {app.game_scene.score}'], 50, 50)
+        self.print_text(app, [f'TIME:  {app.game_scene.minutes} minutes {app.game_scene.seconds} seconds'], 50, 200)
         for event in events:
             if event.type == pygame.QUIT:
                 self.terminate()
