@@ -3,6 +3,17 @@ from objects.button import ButtonRect
 from objects.snake_animated import Snake_Animated
 
 class Finish(Scene):
+    """
+    Класс финишной сцены
+
+    Атрибуты
+    -------------------------
+
+    Методы
+    -------------------------
+    show - промежуточная функция отображения сцены(само отображение проиходит в main которую мы запускаем в show)
+    processing - функция обработки событий, выполнение каких-то уникальных действий, соответствующих именно этой сцене
+    """
     def __init__(self):
         super().__init__()
         self.btn_finish = ButtonRect(200, 800, 200, 100, "TO MENU", 30, '#D2E0BF', '#65656C', '#282B28', 20)
@@ -10,11 +21,19 @@ class Finish(Scene):
         self.snake = Snake_Animated(self.load_image('sprites.png'), 12, 2, 700, 700)
 
     def show(self, app):
+        """
+        промежуточная функция отображения сцены
+        :param app: объект приложения
+        """
         app.fps = 10
         self.background = pygame.transform.scale(self.load_image('finish_scene.jpg'), (WIDTH, HEIGHT))
         self.main(app, self)
 
     def processing(self, app):
+        """
+        функция обработки событий, а также отображение дизайна с анимацией
+        :param app: объект приложения
+        """
         app.screen.blit(self.background, (0, 0))
         self.snake.all_sprites.update()
         self.snake.all_sprites.draw(app.screen)
