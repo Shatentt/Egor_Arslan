@@ -4,6 +4,7 @@ from app._settings import *
 import pygame
 from objects.button import ButtonTriag
 from objects.button import ButtonRect
+import os
 
 
 class SceneStatistics(Scene):  #
