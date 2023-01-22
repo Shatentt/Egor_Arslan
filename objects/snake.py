@@ -28,7 +28,6 @@ class Snake:
 
     def change_pos(self):
         # Изменение положения змейки каждый фрейм
-        tmp = list(self.snake_cells)
         for i in range(len(self.snake_cells) - 1, 0, -1):
             self.snake_cells[i][0] = self.snake_cells[i - 1][0]
             self.snake_cells[i][1] = self.snake_cells[i - 1][1]
@@ -41,15 +40,15 @@ class Snake:
         elif self.direction == "DOWN":
             self.snake_cells[0][1] += _settings.CELL_SIZE
 
-    def move(self, score, foods_pos, screen_width, screen_height, walls_pos=None, keys_pos=None):
+    def move(self, score, foods_pos, screen_width, screen_height, walls_pos=None, keys_pos=None, future_food_pos=None):
         # функция движения змейки
         size = 4 if _settings.CELL_SIZE == 10 else 7
         for i in range(len(foods_pos)):
             if self.snake_cells[0][0] == foods_pos[i].pos[0] and self.snake_cells[0][1] == foods_pos[i].pos[1]:
-                if _settings.gamemode != 5:
+                if _settings.gamemode != 5 and _settings.gamemode != 6:
                     foods_pos[i].pos = [randrange(1, screen_width / _settings.CELL_SIZE) * _settings.CELL_SIZE,
                                     randrange(size, screen_height / _settings.CELL_SIZE) * _settings.CELL_SIZE]
-                else:
+                elif _settings.gamemode == 5:
                     keys_pos.append(Cell([randrange(1, _settings.WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE,
                                            randrange(4, _settings.HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE],
                                           _settings.COLOR_SILVER))
@@ -57,10 +56,20 @@ class Snake:
                                            randrange(4, _settings.HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE],
                                           _settings.COLOR_YELLOW))
                     foods_pos.pop(i)
+                else:
+                    foods_pos[i].pos = future_food_pos[0].pos
+                    future_food_pos.pop(0)
+                    future_food_pos.append(
+                        Cell([randrange(1, _settings.WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE,
+                              randrange(4, _settings.HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE],
+                             _settings.FUTURE_FOOD_COLOR))
                 score += 1
                 if _settings.gamemode == 1:
                     if score % 2 == 0:
-                        walls_pos.append(Cell([randrange(1, _settings.WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE, randrange(4, _settings.HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE], _settings.COLOR_YELLOW))
+                        walls_pos.append(Cell(
+                            [randrange(1, _settings.WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE,
+                             randrange(4, _settings.HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE],
+                            _settings.COLOR_YELLOW))
                 if _settings.gamemode != 3:
                     self.add_snake_cell()
                 else:
@@ -83,6 +92,8 @@ class Snake:
             return score, foods_pos, walls_pos
         elif _settings.gamemode == 5:
             return score, foods_pos, walls_pos, keys_pos
+        elif _settings.gamemode == 6:
+            return score, foods_pos, future_food_pos
         else:
             return score, foods_pos
 
@@ -100,6 +111,7 @@ class Snake:
         self.snake_cells = list(reversed(self.snake_cells))
 
     def add_snake_cell(self):
+        # Добавление новой клетки змейке
         if self.snake_cells[-1][0] > self.snake_cells[-2][0]:
             self.snake_cells.append([self.snake_cells[-1][0] + _settings.CELL_SIZE, self.snake_cells[-1][1]])
         elif self.snake_cells[-1][0] < self.snake_cells[-2][0]:
@@ -113,16 +125,20 @@ class Snake:
         # Отображаем змею
         if _settings.gamemode != 3:
             for pos in self.snake_cells:
-                pygame.draw.rect(screen, self.snake_color, pygame.Rect(pos[0], pos[1], _settings.CELL_SIZE, _settings.CELL_SIZE))
+                pygame.draw.rect(screen, self.snake_color,
+                                 pygame.Rect(pos[0], pos[1], _settings.CELL_SIZE, _settings.CELL_SIZE))
         else:
             pygame.draw.rect(screen, self.snake_color,
                              pygame.Rect(self.snake_cells[0][0], self.snake_cells[0][1], _settings.CELL_SIZE,
                                          _settings.CELL_SIZE))
             start = 1 + koef % 2
             for i in range(start, len(self.snake_cells), 2):
-                pygame.draw.rect(screen, self.snake_color, pygame.Rect(self.snake_cells[i][0], self.snake_cells[i][1], _settings.CELL_SIZE, _settings.CELL_SIZE))
+                pygame.draw.rect(screen, self.snake_color,
+                                 pygame.Rect(self.snake_cells[i][0], self.snake_cells[i][1], _settings.CELL_SIZE,
+                                             _settings.CELL_SIZE))
 
     def check_lose(self, screen_width, screen_height, walls=None, koef=0):
+        # Проверка каждый фрейм на проигрыш
         for wall in walls:
             if wall.pos[0] == self.snake_cells[0][0] and wall.pos[1] == self.snake_cells[0][1]:
                 return True

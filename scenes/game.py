@@ -17,14 +17,23 @@ class SceneGame(Scene):
         self.foods = []
         self.walls = []
         self.keys = []
+        self.future_food = []
         self.koef = 0 # коэффицент, нужный для отображения змейки в режиме hole
         if _settings.gamemode != 5:
             for i in range(_settings.amount_of_food):
                 lim = 4 if _settings.CELL_SIZE == 10 else 7
-                self.foods.append(Cell([randrange(1, WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE, randrange(lim, HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE], _settings.FOOD_COLOR))
+                self.foods.append(Cell([randrange(1, WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE,
+                                        randrange(lim, HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE],
+                                       _settings.FOOD_COLOR))
+                if _settings.gamemode == 6:
+                    self.future_food.append(Cell([randrange(1, WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE,
+                                                  randrange(lim, HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE],
+                                                 _settings.FUTURE_FOOD_COLOR))
         else:
             for i in range(_settings.amount_of_food):
-                self.walls.append(Cell([randrange(1, _settings.WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE, randrange(4, _settings.HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE], _settings.COLOR_YELLOW))
+                self.walls.append(Cell([randrange(1, _settings.WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE,
+                                        randrange(4, _settings.HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE],
+                                       _settings.COLOR_YELLOW))
                 self.keys.append(Cell([randrange(1, _settings.WIDTH / _settings.CELL_SIZE) * _settings.CELL_SIZE,
                                         randrange(4, _settings.HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE],
                                        _settings.COLOR_SILVER))
@@ -50,11 +59,14 @@ class SceneGame(Scene):
             speed = "slow" if _settings.speed == 0 else "medium" if _settings.speed == 1 else "fast"
             modes = ["default", "walls", "immortal", "hole", "reverse", "lock", "seer"]
             gamemode = modes[_settings.gamemode]
-            text = f"{prev_text}{self.score}, {time}, {field_size}, {_settings.amount_of_food}, {speed}, {gamemode}, {res}\n"
+            text = f"{prev_text}{self.score}, {time}, {field_size}, {_settings.amount_of_food}, {speed}, {gamemode}," \
+                   f"{res}\n"
             f.write(text)
 
     def processing(self,
-                   app):  # функция processing обрабатывает события, для стартового окна к примеру, после нажатия Enter, будет сменяться текущая сцена на сцену игры
+                   app):
+        # функция processing обрабатывает события, для стартового окна к примеру
+        # после нажатия Enter, будет сменяться текущая сцена на сцену игры
         events = pygame.event.get()
         app.screen.fill(_settings.FIELD_COLOR)
         if _settings.CELL_SIZE == 10:
@@ -80,6 +92,8 @@ class SceneGame(Scene):
         for i in self.foods:
             i.draw(app.screen)
         for i in self.keys:
+            i.draw(app.screen)
+        for i in self.future_food:
             i.draw(app.screen)
         score_text = [f"Score {self.score}"]
         self.print_text(app, score_text, 20, 10, 50)
@@ -111,12 +125,17 @@ class SceneGame(Scene):
                 self.snake.change_dir("LEFT")
                 break
         if _settings.gamemode == 1:
-            self.score, self.foods, self.walls = self.snake.move(self.score, self.foods, WIDTH, HEIGHT, self.walls, self.keys)
+            self.score, self.foods, self.walls = self.snake.move(self.score, self.foods, WIDTH, HEIGHT, self.walls,
+                                                                 self.keys, self.future_food)
         elif _settings.gamemode == 5:
             self.score, self.foods, self.walls, self.keys = self.snake.move(self.score, self.foods, WIDTH, HEIGHT,
-                                                                            self.walls, self.keys)
+                                                                            self.walls, self.keys, self.future_food)
+        elif _settings.gamemode == 6:
+            self.score, self.foods, self.future_food = self.snake.move(self.score, self.foods, WIDTH, HEIGHT,
+                                                                            self.walls, self.keys, self.future_food)
         else:
-            self.score, self.foods = self.snake.move(self.score, self.foods, WIDTH, HEIGHT, self.walls, self.keys)
+            self.score, self.foods = self.snake.move(self.score, self.foods, WIDTH, HEIGHT, self.walls, self.keys,
+                                                     self.future_food)
         self.koef += 1
 
     def show(self, app):  # функция отображения начального окна

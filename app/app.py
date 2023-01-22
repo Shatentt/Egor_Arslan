@@ -47,7 +47,8 @@ class App:
     def start(self):  # функция старта основного цикла програмы(где за один проход цикла меняется одна сцена)
         while True:
             self.class_scenes[self.current_scene].update(pygame.event.get())
-            if self.current_scene == 0:  # в случае если индекс сцены - 1, то запускаем функцию с циклом отображения сцены начального экрана
+            if self.current_scene == 0:
+                # в случае если индекс сцены - 0, то запускаем функцию с циклом отображения сцены начального экрана
                 self.start_scene.show(self)
                 print('Метод запуска сцены начального экрана запущен')
             if self.current_scene == 1:

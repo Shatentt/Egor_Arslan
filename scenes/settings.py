@@ -74,10 +74,13 @@ class Settings(Scene):  #
             self.cur_food = 2
         if self.cur_food == 0:
             _settings.FOOD_COLOR = _settings.COLOR_RED
+            _settings.FUTURE_FOOD_COLOR = _settings.COLOR_DIM_RED
         if self.cur_food == 1:
             _settings.FOOD_COLOR = _settings.COLOR_ORANGE
+            _settings.FUTURE_FOOD_COLOR = _settings.COLOR_DIM_ORANGE
         if self.cur_food == 2:
             _settings.FOOD_COLOR = _settings.COLOR_PURPLE
+            _settings.FUTURE_FOOD_COLOR = _settings.COLOR_DIM_PURPLE
 
     def change_speed(self, a):
         _settings.speed += a
