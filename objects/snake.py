@@ -5,9 +5,26 @@ import pygame
 from app import _settings
 from objects.cell import Cell
 
+"""
+    class Snake -  Класс змейки
+        def __init__(self, snake_color)
+            Конструктор класса змейки, принимает в себя цвет змейки, который зависит от настроек игрока
+            Создание массива позиций каждой клектки, по которому будут рисоваться квадраты
+        def change_dir(self, dir) - Изменяем направление движения змеи, если оно не противоположно текущему
+        def change_pos(self) - Изменение положения змейки каждый фрейм
+        def move -  функция движения змейки. Работает и возвращает значения по-разному, в зависимости от режима игры
+        def reverse(self):  # функция для режима игры reverse
+            При съедании еды хвост змейки становится головой, а голова хвостом. Эта функция реализовывает такой поворот
+        def add_snake_cell(self) - Добавление новой клетки змейке
+        def draw_snake(self, screen, koef=0) - Отображаем змею
+        def check_lose(self, screen_width, screen_height, walls=None, koef=0)
+            Проверка каждый фрейм на проигрыш (удар об себя, об стенку, об границу карты)
+"""
 
-class Snake:
+class Snake: # Класс змейки
     def __init__(self, snake_color):
+        # Конструктор класса змейки, принимает в себя цвет змейки, который зависит от настроек игрока
+        # Создание массива позиций каждой клектки, по которому будут рисоваться квадраты
         if _settings.CELL_SIZE == 30:
             self.snake_cells = [[120, 120], [0, 0], [0, 0], [0, 0], [0, 0]]
         else:
@@ -41,10 +58,13 @@ class Snake:
             self.snake_cells[0][1] += _settings.CELL_SIZE
 
     def move(self, score, foods_pos, screen_width, screen_height, walls_pos=None, keys_pos=None, future_food_pos=None):
-        # функция движения змейки
+        # Функция движения змейки. Работает и возвращает значения по-разному, в зависимости от режима игры
         size = 4 if _settings.CELL_SIZE == 10 else 7
         for i in range(len(foods_pos)):
             if self.snake_cells[0][0] == foods_pos[i].pos[0] and self.snake_cells[0][1] == foods_pos[i].pos[1]:
+                # Если голова змейки находится на одной позиции с едой, то позиция еды изменяется, score прибавляется
+                # в режиме игры lock спавнятся стена и ключ, еда удаляется
+                # в режиме игры seer еда отправляется на позицию будущего яблока, будущее яблоко меняет позицию
                 if _settings.gamemode != 5 and _settings.gamemode != 6:
                     foods_pos[i].pos = [randrange(1, screen_width / _settings.CELL_SIZE) * _settings.CELL_SIZE,
                                     randrange(size, screen_height / _settings.CELL_SIZE) * _settings.CELL_SIZE]
@@ -64,6 +84,7 @@ class Snake:
                               randrange(4, _settings.HEIGHT / _settings.CELL_SIZE) * _settings.CELL_SIZE],
                              _settings.FUTURE_FOOD_COLOR))
                 score += 1
+                # Добавление стенки каждые 2 очка при режиме игры walls
                 if _settings.gamemode == 1:
                     if score % 2 == 0:
                         walls_pos.append(Cell(
@@ -73,11 +94,14 @@ class Snake:
                 if _settings.gamemode != 3:
                     self.add_snake_cell()
                 else:
+                    # В режиме игры hole добавляются 2 клетки. Одна видимая, другая нет
                     self.add_snake_cell()
                     self.add_snake_cell()
+                # В режиме reverse при съедании яблока "переворачиваем змейку"
                 if _settings.gamemode == 4:
                     self.reverse()
         list_of_deleted = []  # список, помогающий удалить элементы списка keys_pos
+        # При взятии ключа змейкой в режиме lock добавляем еду на место стенки, стенку и ключ удаляем
         for i in range(len(keys_pos)):
             if self.snake_cells[0][0] == keys_pos[i].pos[0] and self.snake_cells[0][1] == keys_pos[i].pos[1]:
                 list_of_deleted.append(i)
@@ -138,12 +162,11 @@ class Snake:
                                              _settings.CELL_SIZE))
 
     def check_lose(self, screen_width, screen_height, walls=None, koef=0):
-        # Проверка каждый фрейм на проигрыш
+        # Проверка каждый фрейм на проигрыш (удар об себя, об стенку, об границу карты)
         for wall in walls:
             if wall.pos[0] == self.snake_cells[0][0] and wall.pos[1] == self.snake_cells[0][1]:
                 return True
         if _settings.gamemode != 2:
-            # Проверка на проигрыш
             top_size = _settings.CELL_SIZE * 5 if _settings.CELL_SIZE == 10 else _settings.CELL_SIZE * 3
             if any((self.snake_cells[0][0] > screen_width - _settings.CELL_SIZE or self.snake_cells[0][0] < 0,
                     self.snake_cells[0][1] > screen_height - _settings.CELL_SIZE or self.snake_cells[0][1] < top_size)):

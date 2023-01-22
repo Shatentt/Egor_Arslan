@@ -2,17 +2,24 @@ from objects.button import ButtonRect
 from ._base import Scene
 from app._settings import *
 
+"""
+    class Start_Scene(Scene) - класс стартововй сцены
+        def __init__(self) - Конструктор класса Start_Scene
+        def processing(self, app) - функция processing обрабатывает события
+        def show(self, app) - функция отображения начального окна
+"""
 
 class Start_Scene(Scene):  # класс стартововй сцены
     def __init__(self):
+        # Конструктор класса Start_Scene
         super().__init__()
         self.button_play = ButtonRect(120, 350, 200, 100, "PLAY", 30, '#D2E0BF', '#729246', '#282B28', 20)
         self.button_stats = ButtonRect(120, 475, 200, 100, "STATISTICS", 30, '#D2E0BF', '#729246', '#282B28', 20)
         self.button_settings = ButtonRect(120, 600, 200, 100, "SETTINGS", 30, '#D2E0BF', '#729246', '#282B28', 20)
         self.button_exit = ButtonRect(120, 725, 200, 100, "EXIT", 30, '#D1A7A0', '#965044', '#282B28', 20)
 
-    def processing(self,
-                   app):  # функция processing обрабатывает события, для стартового окна к примеру, после нажатия Enter, будет сменяться текущая сцена на сцену игры
+    def processing(self, app):  # функция processing обрабатывает события
+        # для стартового окна к примеру, после нажатия Enter, будет сменяться текущая сцена на сцену игры
         events = pygame.event.get()
         self.button_play.hover(events)
         self.button_stats.hover(events)
@@ -51,4 +58,5 @@ class Start_Scene(Scene):  # класс стартововй сцены
         self.button_stats.show(app.screen)
         self.button_exit.show(app.screen)
         self.main(app,
-                  self)  # вызов функции main из родительского класса Scene, аналогично, по идее, можно будет ее вызывать в остальных классах сцен
+                  self)  # вызов функции main из родительского класса Scene.
+        # Аналогично, по идее, можно будет ее вызывать в остальных классах сцен

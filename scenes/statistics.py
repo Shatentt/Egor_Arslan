@@ -6,17 +6,28 @@ from objects.button import ButtonTriag
 from objects.button import ButtonRect
 import os
 
-
-class SceneStatistics(Scene):  #
+"""
+    class SceneStatistics(Scene)  - Класс статистики:
+        def __init__(self) - Конструктор класса стаитистики
+        def show(self, app) - Запуск функции main родительского класса Scene
+        def read_data(self) - Считываем из файла statistics всю статистику. Если такого файла нет, создаем.
+        def find_best_results(self, data) - функция, которая ищет лучший результат для каждого режима
+        def processing - обработка событий
+"""
+class SceneStatistics(Scene):  # Класс статистики
     def __init__(self):
+        # Конструктор класса стаитистики
         super().__init__()
+        # Создаем кнопки возвращения в меню и удаления статистики
         self.button_back = ButtonRect(200, 740, 200, 100, "BACK", 30, '#D1A7A0', '#965044', '#282B28', 20)
         self.button_clear = ButtonRect(500, 740, 200, 100, "CLEAR STATISTICS", 25, '#D1A7A0', '#965044', '#282B28', 20)
 
     def show(self, app):
+        # Запуск функции main родительского класса Scene
         self.main(app, self)
 
     def read_data(self):
+        # Считываем из файла statistics всю статистику. Если такого файла нет, создаем.
         try:
             with open(file="data/statistics.txt", mode="r") as f:
                 text = f.read()
@@ -53,18 +64,21 @@ class SceneStatistics(Scene):  #
         text5 = self.find_best_results(data)
         fon = pygame.transform.scale(self.load_image('fon.jpg'), (WIDTH, HEIGHT))
         app.screen.blit(fon, (0, 0))
+        # Принтим каждый текст
         self.print_text(app, text1, 50, 20, size=80)
         self.print_text(app, text2, 160, 20, size=50, interval=200)
         self.print_text(app, text3, 210, 20, size=50, interval=30)
         self.print_text(app, text4, 102, 20, size=35, interval=5)
         self.print_text(app, text5, 440, 20, size=40, interval=10)
+        # Проверяем, наведена ли мышь на кнопку для каждой кнопки
         self.button_back.hover(events)
         self.button_clear.hover(events)
-
+        # Показываем кнопки
         self.button_back.show(app.screen)
         self.button_clear.show(app.screen)
 
         for event in events:
+            # Проверка ивентов
             if self.button_back.is_clicked(events):
                 app.scenes = [True, False, False, False, False, False]
             if event.type == pygame.QUIT:
@@ -72,6 +86,7 @@ class SceneStatistics(Scene):  #
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 app.scenes = [True, False, False, False, False, False]
             if self.button_clear.is_clicked(events):
+                # Удаляем статистику, если есть файл statistics, иначе не удаляем
                 try:
                     os.remove("data/statistics.txt")
                 except:
