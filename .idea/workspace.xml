@@ -263,7 +263,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674383770471</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="added documentation">
+      <created>1674398043152</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1674398043152</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -305,7 +312,8 @@
     <MESSAGE value="immortal gamemode" />
     <MESSAGE value="функция reverse" />
     <MESSAGE value="added finish scene, animation" />
-    <option name="LAST_COMMIT_MESSAGE" value="added finish scene, animation" />
+    <MESSAGE value="added documentation" />
+    <option name="LAST_COMMIT_MESSAGE" value="added documentation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
