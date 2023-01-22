@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c377b0e1-5ae9-4ad1-8448-6d9e63b8bad7" name="Changes" comment="clear stats fix">
+    <list default="true" id="c377b0e1-5ae9-4ad1-8448-6d9e63b8bad7" name="Changes" comment="seer gamemode">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/_settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/_settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/objects/snake.py" beforeDir="false" afterPath="$PROJECT_DIR$/objects/snake.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/settings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -284,7 +280,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674375214196</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="seer gamemode">
+      <created>1674376832591</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1674376832591</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -329,7 +332,8 @@
     <MESSAGE value="statistics added" />
     <MESSAGE value="requirements" />
     <MESSAGE value="clear stats fix" />
-    <option name="LAST_COMMIT_MESSAGE" value="clear stats fix" />
+    <MESSAGE value="seer gamemode" />
+    <option name="LAST_COMMIT_MESSAGE" value="seer gamemode" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

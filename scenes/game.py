@@ -59,7 +59,7 @@ class SceneGame(Scene):
             speed = "slow" if _settings.speed == 0 else "medium" if _settings.speed == 1 else "fast"
             modes = ["default", "walls", "immortal", "hole", "reverse", "lock", "seer"]
             gamemode = modes[_settings.gamemode]
-            text = f"{prev_text}{self.score}, {time}, {field_size}, {_settings.amount_of_food}, {speed}, {gamemode}," \
+            text = f"{prev_text}{self.score}, {time}, {field_size}, {_settings.amount_of_food}, {speed}, {gamemode}, " \
                    f"{res}\n"
             f.write(text)
 
