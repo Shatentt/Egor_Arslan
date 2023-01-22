@@ -39,6 +39,20 @@ class SceneGame(Scene):
             self.clock.tick(40)
         else:
             self.clock.tick()
+
+    def data_save(self, res="lose"):
+        prev_text = ""
+        with open(file="data/statistics.txt", mode="r") as f:
+            prev_text = f.read()
+        with open(file="data/statistics.txt", mode="w") as f:
+            time = self.seconds + self.minutes * 60
+            field_size = "small" if _settings.CELL_SIZE == 30 else "medium" if _settings.CELL_SIZE == 20 else "big"
+            speed = "slow" if _settings.speed == 0 else "medium" if _settings.speed == 1 else "fast"
+            modes = ["default", "walls", "immortal", "hole", "reverse", "lock", "seer"]
+            gamemode = modes[_settings.gamemode]
+            text = f"{prev_text}{self.score}, {time}, {field_size}, {_settings.amount_of_food}, {speed}, {gamemode}, {res}\n"
+            f.write(text)
+
     def processing(self,
                    app):  # функция processing обрабатывает события, для стартового окна к примеру, после нажатия Enter, будет сменяться текущая сцена на сцену игры
         events = pygame.event.get()
@@ -55,9 +69,9 @@ class SceneGame(Scene):
             tick = self.clock.tick()
         if _settings.game_goes:
             self.ticks += tick
-        seconds = int(self.ticks / 1000 % 60)
-        minutes = int(self.ticks / 60000 % 24)
-        time_text = [f"Time {minutes:02d}:{seconds:02d}"]
+        self.seconds = int(self.ticks / 1000 % 60)
+        self.minutes = int(self.ticks / 60000 % 24)
+        time_text = [f"Time {self.minutes:02d}:{self.seconds:02d}"]
         self.print_text(app, time_text, 20, 220, 50)
         _settings.game_goes = True
         self.snake.draw_snake(app.screen, self.koef)
@@ -71,9 +85,11 @@ class SceneGame(Scene):
         self.print_text(app, score_text, 20, 10, 50)
         if _settings.gamemode == 1:
             if self.snake.check_lose(WIDTH, HEIGHT, self.walls):
+                self.data_save()
                 self.terminate()
         else:
             if self.snake.check_lose(WIDTH, HEIGHT, self.walls, self.koef):
+                self.data_save()
                 self.terminate()
         for event in events:
             if event.type == pygame.QUIT:
@@ -81,7 +97,7 @@ class SceneGame(Scene):
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 pygame.image.save(app.screen, "data/screenshot.png")
                 _settings.game_goes = False
-                app.scenes = [False, False, False, True]
+                app.scenes = [False, False, False, True, False]
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
                 self.snake.change_dir("DOWN")
                 break

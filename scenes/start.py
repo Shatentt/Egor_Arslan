@@ -23,12 +23,14 @@ class Start_Scene(Scene):  # класс стартововй сцены
         self.button_settings.show(app.screen)
         self.button_exit.show(app.screen)
         if self.button_play.is_clicked(events):
-            app.scenes = [False, True, False, False]
+            app.scenes = [False, True, False, False, False]
             app.reset_game()
         if self.button_settings.is_clicked(events):
-            app.scenes = [False, False, True, False]
+            app.scenes = [False, False, True, False, False]
         if self.button_exit.is_clicked(events):
             self.terminate()
+        if self.button_stats.is_clicked(events):
+            app.scenes = [False, False, False, False, True]
         for event in events:
             if event.type == pygame.QUIT:
                 self.terminate()
